@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 public class IntroducingWindow extends BasicWindow {
 
+    public final static int HEIGHT = 416;
+    public final static int WIDTH = 704;
+
     public final static int BUTTON_WIDTH = 200;
     public final static int BUTTON_HEIGHT = 50;
     public final static float BUTTON_DISTANCE_FACTOR = 1.5f;
@@ -18,11 +21,12 @@ public class IntroducingWindow extends BasicWindow {
     private ArrayList<JButton> buttons;
 
     public IntroducingWindow() {
-        super("Minesweeper - Main Menu", 700, 400);
+        super("Minesweeper - Main Menu", WIDTH, HEIGHT);
 
         initIntroducingPanel();
 
         initButtons();
+        setButtonsDesign();
         setButtonsSize();
         setButtonsLocation();
         addButtonsToPanel();
@@ -61,6 +65,13 @@ public class IntroducingWindow extends BasicWindow {
         return button;
     }
 
+    private void setButtonsDesign() {
+        for (JButton button : buttons) {
+            button.setForeground(new Color(0, 0, 0));
+            button.setBackground(new Color(173, 24, 24));
+        }
+    }
+
     private void setButtonsSize() {
         for (JButton button : buttons) button.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     }
@@ -84,6 +95,10 @@ public class IntroducingWindow extends BasicWindow {
 
     private void initTitleLabel() {
         JLabel titleLabel = new JLabel("Minesweeper", JLabel.CENTER);
+
+        titleLabel.setOpaque(true);
+        titleLabel.setForeground(new Color(0, 0, 0));
+        titleLabel.setBackground(new Color(173, 24, 24));
 
         titleLabel.setFont(new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
 
