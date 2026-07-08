@@ -4,23 +4,22 @@ import java.awt.*;
 public class Cell {
     private int value;
     private CellTypes type;
-    private Coordinates coordinates;
 
     private final Image icon;
 
     public static final int CELL_SIZE = 32;
 
     public Cell(CellTypes type) {
-        if (type == CellTypes.BOMB) this.value = -1;
+        if (type == CellTypes.MINE) this.value = -1;
         else this.value = 0;
 
-        Image bomb = new ImageIcon("resources/cellTypesIcons/bomb.png").getImage();
+        Image mine = new ImageIcon("resources/cellTypesIcons/mine.png").getImage();
         Image empty = new ImageIcon("resources/cellTypesIcons/empty.png").getImage();
         Image flagged = new ImageIcon("resources/cellTypesIcons/flagged.png").getImage();
 
         switch (type) {
-            case BOMB:
-                icon = bomb;
+            case MINE:
+                icon = mine;
                 break;
             case EMPTY:
                 icon = empty;
@@ -51,21 +50,13 @@ public class Cell {
         this.type = type;
     }
 
-    public Coordinates getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public void paint(Graphics g, Coordinates coordinates) {
+    public void paint(Graphics g, int x, int y) {
         Graphics2D g2d = (Graphics2D) g;
 
         if (icon == null) {
-            g2d.drawRect(coordinates.getX(), coordinates.getY(), CELL_SIZE, CELL_SIZE);
+            g2d.drawRect(x, y, CELL_SIZE, CELL_SIZE);
         } else {
-            g2d.drawImage(icon, coordinates.getX(), coordinates.getY(), null);
+            g2d.drawImage(icon, x, y, null);
         }
     }
 
@@ -74,7 +65,6 @@ public class Cell {
         return "Cell{" +
                 "value=" + value +
                 ", type=" + type +
-                ", coordinates=" + coordinates +
                 '}';
     }
 }

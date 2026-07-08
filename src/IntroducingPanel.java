@@ -2,14 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class IntroducingPanel extends JPanel {
+    private RandomGenerator rnd;
+
     @Override
     protected void paintComponent(Graphics g) {
 
-        Cell cell = new Cell(CellTypes.BOMB);
+        Cell cell = new Cell(CellTypes.MINE);
 
         for (int i = 0; i < IntroducingWindow.HEIGHT; i += Cell.CELL_SIZE) {
             for (int j = 0; j < IntroducingWindow.WIDTH; j += Cell.CELL_SIZE) {
-                cell.paint(g, new Coordinates(j, i));
+                cell.paint(g, j, i);
             }
         }
 

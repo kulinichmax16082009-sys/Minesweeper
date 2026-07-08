@@ -1,5 +1,5 @@
 public enum CellTypes {
     EMPTY,
-    BOMB,
+    MINE,
     FLAGGED,
 }

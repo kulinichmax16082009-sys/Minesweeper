@@ -1,41 +1,74 @@
-import java.util.HashMap;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 public class Board {
-    private HashMap<Coordinates, Cell> cells;
+    private Cell[][] cells;
+    private int numberOfMines;
     private int width;
     private int height;
 
-    public Board(int height, int width) {
-        cells = new HashMap<>();
+    public static final String EASY_BOARD_PATH = "resources/boardDifficultyTypes/easy.json";
+    public static final String MEDIUM_BOARD_PATH = "resources/boardDifficultyTypes/medium.json";
+    public static final String HARD_BOARD_PATH = "resources/boardDifficultyTypes/hard.json";
 
+    public Board(int height, int width, int numberOfMines) {
         if (height <= 0 || width <= 0) {
             height = 0;
             width = 0;
         }
 
+        if (numberOfMines < 0) {
+            numberOfMines = 0;
+        }
+        else if (numberOfMines > height * width) {
+            numberOfMines = height * width;
+        }
+
         this.height = height;
         this.width = width;
+        this.numberOfMines = numberOfMines;
+        cells = new Cell[height][width];
     }
 
-    public boolean isValidCoordinate(Coordinates coordinates) {
-        return coordinates.getX() >= 0 && coordinates.getX() < width && coordinates.getY() >= 0 && coordinates.getY() < height;
+    public Board() {
+        this.cells = new Cell[1][1];
+        this.numberOfMines = 0;
+        this.width = 1;
+        this.height = 1;
     }
 
-    public void placeCell(Coordinates coordinates, Cell cell) {
-        if (isValidCoordinate(coordinates)) {
-            cells.put(coordinates, cell);
-        } else {
-            // Delete this
-            System.out.println("Invalid coordinates: " + coordinates);
+    public void generateBoard(Difficulty difficulty) {
+        switch (difficulty) {
+            case EASY:
+                initializeBoard(EASY_BOARD_PATH);
+                break;
+            case MEDIUM:
+                initializeBoard(MEDIUM_BOARD_PATH);
+                break;
+            case HARD:
+                initializeBoard(HARD_BOARD_PATH);
+                break;
+            default:
+                height = 1;
+                width = 1;
+                numberOfMines = 0;
+                break;
         }
     }
 
-    public HashMap<Coordinates, Cell> getCells() {
-        return cells;
-    }
+    public void initializeBoard(String jsonFilePath) {
+        ObjectMapper mapper = new ObjectMapper();
 
-    public void setCells(HashMap<Coordinates, Cell> cells) {
-        this.cells = cells;
+        try (InputStream input = new FileInputStream(jsonFilePath)) {
+            mapper.readerForUpdating(this).readValue(input);
+        } catch (Exception e) {
+            this.cells = new Cell[1][1];
+            this.numberOfMines = 0;
+            this.width = 1;
+            this.height = 1;
+        }
     }
 
     public int getWidth() {
@@ -54,12 +87,21 @@ public class Board {
         this.height = height;
     }
 
+    public int getNumberOfMines() {
+        return numberOfMines;
+    }
+
+    public void setNumberOfMines(int numberOfMines) {
+        this.numberOfMines = numberOfMines;
+    }
+
     @Override
     public String toString() {
-        return "BoardManager{" +
-                "board=" + cells +
-                ", rows=" + width +
-                ", cols=" + height +
+        return "Board{" +
+                "cells=" + cells +
+                ", numberOfMines=" + numberOfMines +
+                ", width=" + width +
+                ", height=" + height +
                 '}';
     }
 }
