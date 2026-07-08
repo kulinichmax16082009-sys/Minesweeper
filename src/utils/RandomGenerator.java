@@ -1,3 +1,7 @@
+package utils;
+
+import enums.CellTypes;
+
 import java.util.Random;
 
 public class RandomGenerator {

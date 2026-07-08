@@ -1,5 +1,12 @@
+package panels;
+
+import enums.CellTypes;
+import gameObjects.Cell;
+import windows.IntroducingWindow;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.random.RandomGenerator;
 
 public class IntroducingPanel extends JPanel {
     private RandomGenerator rnd;

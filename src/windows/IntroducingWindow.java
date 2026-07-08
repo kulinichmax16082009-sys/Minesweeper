@@ -1,3 +1,7 @@
+package windows;
+
+import panels.IntroducingPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;

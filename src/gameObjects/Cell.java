@@ -1,3 +1,7 @@
+package gameObjects;
+
+import enums.CellTypes;
+
 import javax.swing.*;
 import java.awt.*;
 
