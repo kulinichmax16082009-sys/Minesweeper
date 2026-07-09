@@ -24,7 +24,7 @@ public class RandomGenerator {
         if (generateProbability(board.getNumberOfMines() * 100f / (board.getWidth() * board.getHeight()))) {
             return CellTypes.MINE;
         } else {
-            return CellTypes.EMPTY;
+            return CellTypes.NUMBER;
         }
     }
 }

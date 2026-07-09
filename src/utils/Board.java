@@ -13,9 +13,9 @@ public class Board {
     private int width;
     private int height;
 
-    public static final String EASY_BOARD_PATH = "resources/boardDifficultyTypes/easy.json";
-    public static final String MEDIUM_BOARD_PATH = "resources/boardDifficultyTypes/medium.json";
-    public static final String HARD_BOARD_PATH = "resources/boardDifficultyTypes/hard.json";
+    private final String EASY_BOARD_PATH = "resources/boardDifficulties/easy.json";
+    private final String MEDIUM_BOARD_PATH = "resources/boardDifficulties/medium.json";
+    private final String HARD_BOARD_PATH = "resources/boardDifficulties/hard.json";
 
     public Board(int height, int width, int numberOfMines) {
         if (height <= 0 || width <= 0) {
@@ -23,12 +23,8 @@ public class Board {
             width = 0;
         }
 
-        if (numberOfMines < 0) {
-            numberOfMines = 0;
-        }
-        else if (numberOfMines > height * width) {
-            numberOfMines = height * width;
-        }
+        if (numberOfMines < 0) numberOfMines = 0;
+        else if (numberOfMines > height * width) numberOfMines = height * width;
 
         this.height = height;
         this.width = width;

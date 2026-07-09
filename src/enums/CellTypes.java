@@ -1,7 +1,7 @@
 package enums;
 
 public enum CellTypes {
-    EMPTY,
+    NUMBER,
     MINE,
     FLAGGED,
 }

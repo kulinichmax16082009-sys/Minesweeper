@@ -1,5 +1,6 @@
 package windows;
 
+import gameObjects.Cell;
 import panels.IntroducingPanel;
 
 import javax.swing.*;
@@ -9,17 +10,20 @@ import java.util.ArrayList;
 
 public class IntroducingWindow extends BasicWindow {
 
-    public final static int HEIGHT = 416;
-    public final static int WIDTH = 704;
+    private static final int CELL_AMOUNT_HEIGHT = 13;
+    private static final int CELL_AMOUNT_WIDTH = 22;
 
-    public final static int BUTTON_WIDTH = 200;
-    public final static int BUTTON_HEIGHT = 50;
-    public final static float BUTTON_DISTANCE_FACTOR = 1.5f;
-    private static final int BUTTON_X = 40;
+    public final static int HEIGHT = CELL_AMOUNT_HEIGHT * Cell.CELL_SIZE;
+    public final static int WIDTH = CELL_AMOUNT_WIDTH * Cell.CELL_SIZE;
 
-    private static final int TITLE_WIDTH = 200;
-    private static final int TITLE_HEIGHT = 50;
-    private static final int TITLE_FONT_SIZE = 30;
+    private final int BUTTON_WIDTH = 200;
+    private final int BUTTON_HEIGHT = 50;
+    private final float BUTTON_DISTANCE_FACTOR = 1.5f;
+    private final int BUTTON_X = 40;
+
+    private final int TITLE_WIDTH = 200;
+    private final int TITLE_HEIGHT = 50;
+    private final int TITLE_FONT_SIZE = 30;
 
     private IntroducingPanel panel;
     private ArrayList<JButton> buttons;

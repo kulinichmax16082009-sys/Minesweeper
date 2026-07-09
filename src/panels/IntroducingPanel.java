@@ -2,6 +2,7 @@ package panels;
 
 import enums.CellTypes;
 import gameObjects.Cell;
+import gameObjects.Value;
 import windows.IntroducingWindow;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ public class IntroducingPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
 
-        Cell cell = new Cell(CellTypes.MINE);
+        Cell cell = new Cell(CellTypes.NUMBER, new Value(0), false);
 
         for (int i = 0; i < IntroducingWindow.HEIGHT; i += Cell.CELL_SIZE) {
             for (int j = 0; j < IntroducingWindow.WIDTH; j += Cell.CELL_SIZE) {
