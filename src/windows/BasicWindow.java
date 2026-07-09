@@ -26,7 +26,7 @@ public abstract class BasicWindow {
     }
 
     public static void showErrorMessage(String message) {
-        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Minesweeper - Error", JOptionPane.ERROR_MESSAGE);
     }
 
     public abstract String getImagePath();

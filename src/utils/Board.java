@@ -58,7 +58,7 @@ public class Board {
         }
     }
 
-    public void initializeBoard(String jsonFilePath) {
+    private void initializeBoard(String jsonFilePath) {
         ObjectMapper mapper = new ObjectMapper();
 
         try (InputStream input = new FileInputStream(jsonFilePath)) {
