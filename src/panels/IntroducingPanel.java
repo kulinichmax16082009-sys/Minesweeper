@@ -1,28 +1,45 @@
 package panels;
 
-import enums.CellTypes;
 import gameObjects.Cell;
-import gameObjects.Value;
+import utils.RandomGen;
 import windows.IntroducingWindow;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.random.RandomGenerator;
 
 public class IntroducingPanel extends JPanel {
-    private RandomGenerator rnd;
+    private final RandomGen rnd;
+    private Timer timer;
+
+    public IntroducingPanel() {
+        this.rnd = new RandomGen();
+
+        animation();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
-
-        Cell cell = new Cell(CellTypes.NUMBER, new Value(0), false);
+        super.paintComponent(g);
 
         for (int i = 0; i < IntroducingWindow.HEIGHT; i += Cell.CELL_SIZE) {
             for (int j = 0; j < IntroducingWindow.WIDTH; j += Cell.CELL_SIZE) {
+                Cell cell = rnd.randomCell();
                 cell.paint(g, j, i);
             }
         }
+    }
 
-        repaint();
+    private void animation() {
+        if (timer == null) {
+            timer = new Timer(1000, e -> repaint());
+            timer.start();
+        }
+    }
+
+    private void stopAnimation() {
+        if (timer != null) {
+            timer.stop();
+            timer = null;
+        }
     }
 }

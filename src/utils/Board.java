@@ -17,20 +17,20 @@ public class Board {
     private final String MEDIUM_BOARD_PATH = "resources/boardDifficulties/medium.json";
     private final String HARD_BOARD_PATH = "resources/boardDifficulties/hard.json";
 
-    public Board(int height, int width, int numberOfMines) {
-        if (height <= 0 || width <= 0) {
-            height = 0;
-            width = 0;
-        }
-
-        if (numberOfMines < 0) numberOfMines = 0;
-        else if (numberOfMines > height * width) numberOfMines = height * width;
-
-        this.height = height;
-        this.width = width;
-        this.numberOfMines = numberOfMines;
-        cells = new Cell[height][width];
-    }
+//    public Board(int height, int width, int numberOfMines) {
+//        if (height <= 0 || width <= 0) {
+//            height = 0;
+//            width = 0;
+//        }
+//
+//        if (numberOfMines < 0) numberOfMines = 0;
+//        else if (numberOfMines > height * width) numberOfMines = height * width;
+//
+//        this.height = height;
+//        this.width = width;
+//        this.numberOfMines = numberOfMines;
+//        cells = new Cell[height][width];
+//    }
 
     public Board() {
         this.cells = new Cell[1][1];
@@ -69,6 +69,20 @@ public class Board {
             this.width = 1;
             this.height = 1;
         }
+
+        normalizeBoard();
+    }
+
+    private void normalizeBoard() {
+        if (height <= 0 || width <= 0) {
+            height = 1;
+            width = 1;
+        }
+
+        if (numberOfMines < 0) numberOfMines = 0;
+        else if (numberOfMines > height * width) numberOfMines = height * width;
+
+        cells = new Cell[height][width];
     }
 
     public int getWidth() {

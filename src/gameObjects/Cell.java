@@ -1,6 +1,7 @@
 package gameObjects;
 import enums.CellTypes;
-import javax.swing.*;
+import utils.CellTextures;
+
 import java.awt.*;
 
 public class Cell {
@@ -11,16 +12,11 @@ public class Cell {
 
     public static final int CELL_SIZE = 32;
 
-    private final Image mine = new ImageIcon("resources/cellTypesIcons/mine.png").getImage();
-    private final Image hidden = new ImageIcon("resources/cellTypesIcons/hidden.png").getImage();
-    private final Image flagged = new ImageIcon("resources/cellTypesIcons/flagged.png").getImage();
-    private final Image number = new ImageIcon("resources/cellTypesIcons/number.png").getImage();
-
     public Cell(CellTypes type, Value value, boolean isRevealed) {
         if (type == CellTypes.MINE) this.value = null;
         else this.value = value;
 
-        if (!isRevealed) this.icon = hidden;
+        if (!isRevealed) this.icon = CellTextures.HIDDEN;
         else setIconByType(type);
 
         this.type = type;
@@ -30,13 +26,13 @@ public class Cell {
     private void setIconByType(CellTypes type) {
         switch (type) {
             case MINE:
-                icon = mine;
+                icon = CellTextures.MINE;
                 break;
             case FLAGGED:
-                icon = flagged;
+                icon = CellTextures.FLAGGED;
                 break;
             case NUMBER:
-                icon = number;
+                icon = CellTextures.NUMBER;
                 break;
             default:
                 icon = null;
@@ -46,26 +42,56 @@ public class Cell {
     public void paint(Graphics g, int x, int y) {
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        antialias(g2d);
 
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        if (icon == null) paintDefaultTexture(g2d, x, y);
+        else g2d.drawImage(icon, x, y, null);
 
-        if (icon == null) {
-            g2d.drawRect(x, y, CELL_SIZE, CELL_SIZE);
-        } else {
-            g2d.drawImage(icon, x, y, null);
+        paintText(g2d, x, y);
+    }
 
-            if (type.equals(CellTypes.NUMBER) && isRevealed) {
-                g2d.setColor(value.getColor());
-                g2d.setFont(new Font("Arial", Font.BOLD, 30));
-
-                String s = String.valueOf(value.getNumber());
-                FontMetrics fm = g2d.getFontMetrics();
-                int strWidth = fm.stringWidth(s);
-                int strHeight = -(int) fm.getLineMetrics(s, g2d).getBaselineOffsets()[2];
-                g2d.drawString(s, x + (CELL_SIZE - strWidth) / 2, y + CELL_SIZE - (CELL_SIZE - strHeight) / 2 - 5);
-            }
+    private void paintDefaultTexture(Graphics2D g2d, int x, int y) {
+        if (!isRevealed) {
+            g2d.setColor(new Color(130, 130, 130));
+            g2d.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+            return;
         }
+
+        switch (type) {
+            case MINE:
+                g2d.setColor(new Color(0,0,0));
+                g2d.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+                break;
+            case FLAGGED:
+                g2d.setColor(new Color(255,0,0));
+                g2d.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+                break;
+            case NUMBER:
+                g2d.drawRect(x, y, CELL_SIZE, CELL_SIZE);
+                g2d.setColor(new Color(255,255,255));
+                g2d.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+                break;
+            default:
+                g2d.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+        }
+    }
+
+    private void paintText(Graphics2D g2d, int x, int y) {
+        if (type.equals(CellTypes.NUMBER) && isRevealed && value.getNumber() != 0) {
+            g2d.setColor(value.getColor());
+            g2d.setFont(new Font("Arial", Font.BOLD, 30));
+
+            String s = String.valueOf(value.getNumber());
+            FontMetrics fm = g2d.getFontMetrics();
+            int strWidth = fm.stringWidth(s);
+            int strHeight = -(int) fm.getLineMetrics(s, g2d).getBaselineOffsets()[2];
+            g2d.drawString(s, x + (CELL_SIZE - strWidth) / 2, y + CELL_SIZE - (CELL_SIZE - strHeight) / 2 - 5);
+        }
+    }
+
+    private void antialias(Graphics2D g2d) {
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 
     public void reveal() {

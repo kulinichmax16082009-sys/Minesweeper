@@ -25,7 +25,7 @@ public class IntroducingWindow extends BasicWindow {
     private final int TITLE_HEIGHT = 50;
     private final int TITLE_FONT_SIZE = 30;
 
-    private IntroducingPanel panel;
+    private IntroducingPanel introducingPanel;
     private ArrayList<JButton> buttons;
 
     public IntroducingWindow() {
@@ -77,6 +77,7 @@ public class IntroducingWindow extends BasicWindow {
         for (JButton button : buttons) {
             button.setForeground(new Color(0, 0, 0));
             button.setBackground(new Color(173, 24, 24));
+            button.setFont(new Font("Arial", Font.BOLD, 20));
         }
     }
 
@@ -91,14 +92,14 @@ public class IntroducingWindow extends BasicWindow {
     }
 
     private void addButtonsToPanel() {
-        for (JButton button : buttons) panel.add(button);
+        for (JButton button : buttons) introducingPanel.add(button);
     }
 
    private void initIntroducingPanel() {
-        panel = new IntroducingPanel();
-        panel.setPreferredSize(new Dimension(width, height));
-        panel.setLayout(null);
-        frame.add(panel, BorderLayout.CENTER);
+        introducingPanel = new IntroducingPanel();
+        introducingPanel.setPreferredSize(new Dimension(width, height));
+        introducingPanel.setLayout(null);
+        frame.add(introducingPanel, BorderLayout.CENTER);
     }
 
     private void initTitleLabel() {
@@ -112,7 +113,7 @@ public class IntroducingWindow extends BasicWindow {
 
         titleLabel.setBounds(width - TITLE_WIDTH - 10, height / 2 - TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT);
 
-        panel.add(titleLabel);
+        introducingPanel.add(titleLabel);
     }
 
     @Override

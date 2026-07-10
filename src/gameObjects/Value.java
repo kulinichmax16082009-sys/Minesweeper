@@ -42,7 +42,7 @@ public class Value {
 
     private void attachColorToValue() {
         for (int i = 0; i < possibleColors.size(); i++) {
-            if (number == i) {
+            if (number == i + 1) {
                 MyColor myColor = possibleColors.get(i);
                 color = new Color(myColor.getR(), myColor.getG(), myColor.getB());
             }

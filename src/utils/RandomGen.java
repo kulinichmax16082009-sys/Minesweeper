@@ -1,10 +1,12 @@
 package utils;
 
 import enums.CellTypes;
+import gameObjects.Cell;
+import gameObjects.Value;
 
 import java.util.Random;
 
-public class RandomGenerator {
+public class RandomGen {
 
     private final Random rnd = new Random();
 
@@ -20,11 +22,11 @@ public class RandomGenerator {
         return rnd.nextInt(min, max + 1);
     }
 
-    public CellTypes randomCellType(Board board) {
-        if (generateProbability(board.getNumberOfMines() * 100f / (board.getWidth() * board.getHeight()))) {
-            return CellTypes.MINE;
-        } else {
-            return CellTypes.NUMBER;
-        }
+    public Cell randomCell() {
+        int randomValue = randomNumber(0, 8);
+        boolean isRevealed = rnd.nextBoolean();
+        CellTypes type = CellTypes.values()[randomNumber(0, CellTypes.values().length - 1)];
+
+        return new Cell(type, new Value(randomValue), isRevealed);
     }
 }
