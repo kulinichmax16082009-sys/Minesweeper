@@ -1,7 +1,6 @@
-package utils;
+package utils.simpleUI;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class SimpleCheckBox extends JCheckBox {

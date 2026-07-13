@@ -1,7 +1,8 @@
 package panels;
 
 import enums.Difficulty;
-import utils.SimpleButton;
+import utils.simpleUI.SimpleButton;
+import utils.simpleUI.SimpleLabel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,39 +50,29 @@ public class DifficultyPanel extends JPanel {
 
         buttons.add(SimpleButton.createButton("Easy", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
             selectedDifficulty = Difficulty.EASY;
-            introducingPanel.unpause(this);
+            introducingPanel.setPaused(this, false);
         }));
 
         buttons.add(SimpleButton.createButton("Medium", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
             selectedDifficulty = Difficulty.MEDIUM;
-            introducingPanel.unpause(this);
+            introducingPanel.setPaused(this, false);
         }));
 
         buttons.add(SimpleButton.createButton("Hard", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
             selectedDifficulty = Difficulty.HARD;
-            introducingPanel.unpause(this);
+            introducingPanel.setPaused(this, false);
         }));
     }
 
     private void setButtonsDesign() {
         for (SimpleButton button : buttons) {
-            button.setForeground(new Color(0, 0, 0));
-            button.setBackground(new Color(0, 100, 0));
-            button.setFont(new Font("Arial", Font.BOLD, BUTTON_FONT_SIZE));
+            button.setDesign(new Color(0, 100, 0), new Color(0,0,0), BUTTON_FONT_SIZE, "Arial");
         }
     }
 
     private void initTitleLabel() {
-        titleLabel = new JLabel("Difficulty", JLabel.CENTER);
-
-        titleLabel.setOpaque(true);
-        titleLabel.setForeground(new Color(0, 0, 0));
-        titleLabel.setBackground(new Color(0, 100, 0));
-
-        titleLabel.setFont(new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
-
-        titleLabel.setBounds(WIDTH / 2 - TITLE_WIDTH / 2, TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT);
-
+        titleLabel = SimpleLabel.createTitleLabel(WIDTH / 2 - TITLE_WIDTH / 2, TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT,
+                new Color(0, 0, 0), new Color(0, 100, 0), "Difficulty", new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
         add(titleLabel);
     }
 

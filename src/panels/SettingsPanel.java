@@ -1,7 +1,8 @@
 package panels;
 
-import utils.SimpleButton;
-import utils.SimpleCheckBox;
+import utils.simpleUI.SimpleButton;
+import utils.simpleUI.SimpleCheckBox;
+import utils.simpleUI.SimpleLabel;
 import utils.SoundPlayer;
 
 import javax.swing.*;
@@ -48,15 +49,8 @@ public class SettingsPanel extends JPanel {
     }
 
     private void initTitleLabel() {
-        titleLabel = new JLabel("Settings", JLabel.CENTER);
-
-        titleLabel.setOpaque(true);
-        titleLabel.setForeground(new Color(0, 0, 0));
-        titleLabel.setBackground(new Color(0, 0, 240));
-
-        titleLabel.setFont(new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
-
-        titleLabel.setBounds(WIDTH / 2 - TITLE_WIDTH / 2, TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT);
+        titleLabel = SimpleLabel.createTitleLabel(WIDTH / 2 - TITLE_WIDTH / 2, TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT,
+                new Color(0, 0, 0), new Color(0, 0, 240), "Settings", new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
 
         add(titleLabel);
     }
@@ -86,15 +80,11 @@ public class SettingsPanel extends JPanel {
     }
 
     private void initBackButton() {
-        SimpleButton simpleButton = utils.SimpleButton.createButton("Back", BUTTON_WIDTH, BUTTON_HEIGHT, e -> introducingPanel.unpause(this));
+        SimpleButton back = SimpleButton.createButton("Back", BUTTON_WIDTH, BUTTON_HEIGHT, e -> introducingPanel.setPaused(this, false));
+        back.setDesign(new Color(0, 0, 240), new Color(0, 0, 0), BUTTON_FONT_SIZE, "Arial");
+        back.setLocation(10, HEIGHT - 10 - BUTTON_HEIGHT);
 
-        simpleButton.setForeground(new Color(0, 0, 0));
-        simpleButton.setBackground(new Color(0, 0, 240));
-        simpleButton.setFont(new Font("Arial", Font.BOLD, BUTTON_FONT_SIZE));
-
-        simpleButton.setLocation(10, HEIGHT - 10 - BUTTON_HEIGHT);
-
-        add(simpleButton);
+        add(back);
     }
 
     public IntroducingPanel getIntroducingPanel() {

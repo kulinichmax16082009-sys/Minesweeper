@@ -1,4 +1,4 @@
-package utils;
+package utils.simpleUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,5 +14,11 @@ public class SimpleButton extends JButton {
         button.setSize(width, height);
         button.addActionListener(listener);
         return button;
+    }
+
+    public void setDesign(Color background, Color foreground, int size, String font) {
+        setForeground(foreground);
+        setBackground(background);
+        setFont(new Font(font, Font.BOLD, size));
     }
 }

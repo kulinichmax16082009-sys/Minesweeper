@@ -2,15 +2,16 @@ package panels;
 
 import gameObjects.Cell;
 import utils.RandomGen;
-import utils.SimpleButton;
+import utils.simpleUI.SimpleButton;
 import utils.SoundPlayer;
 import utils.constants.Sounds;
+import utils.simpleUI.SimpleLabel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static utils.SimpleButton.createButton;
+import static utils.simpleUI.SimpleButton.createButton;
 
 public class IntroducingPanel extends JPanel {
     private static final int CELL_AMOUNT_HEIGHT = 13;
@@ -37,10 +38,8 @@ public class IntroducingPanel extends JPanel {
     private JLabel titleLabel;
     private Timer timer;
     private boolean isPaused;
-    private boolean playAnimation;
 
     public IntroducingPanel(DifficultyPanel difficultyPanel, SettingsPanel settingsPanel) {
-        this.playAnimation = true;
         this.rnd = new RandomGen();
         this.difficultyPanel = difficultyPanel;
         this.settingsPanel = settingsPanel;
@@ -71,54 +70,34 @@ public class IntroducingPanel extends JPanel {
             System.out.println("Score button clicked");
         }));
 
-        buttons.add(createButton("Settings",BUTTON_WIDTH, BUTTON_HEIGHT, e -> pause(settingsPanel)));
+        buttons.add(createButton("Settings",BUTTON_WIDTH, BUTTON_HEIGHT, e -> setPaused(settingsPanel, true)));
 
-        buttons.add(createButton("Difficulty",BUTTON_WIDTH, BUTTON_HEIGHT, e -> pause(difficultyPanel)));
+        buttons.add(createButton("Difficulty",BUTTON_WIDTH, BUTTON_HEIGHT, e -> setPaused(difficultyPanel, true)));
 
         buttons.add(createButton("Quit",BUTTON_WIDTH, BUTTON_HEIGHT ,e -> System.exit(0)));
     }
 
-    public void pause(JPanel newPanel) {
-        isPaused = true;
+    public void setPaused(JPanel newPanel, boolean isPaused) {
+        this.isPaused = isPaused;
 
-        newPanel.setVisible(true);
-        for (SimpleButton button : buttons) button.setVisible(false);
+        newPanel.setVisible(isPaused);
+        for (SimpleButton button : buttons) button.setVisible(!isPaused);
 
-        titleLabel.setVisible(false);
-
-        repaint();
-    }
-
-    public void unpause(JPanel newPanel) {
-        isPaused = false;
-
-        newPanel.setVisible(false);
-        for (SimpleButton button : buttons) button.setVisible(true);
-
-        titleLabel.setVisible(true);
+        titleLabel.setVisible(!isPaused);
 
         repaint();
     }
 
     private void initTitleLabel() {
-        titleLabel = new JLabel("Minesweeper", JLabel.CENTER);
-
-        titleLabel.setOpaque(true);
-        titleLabel.setForeground(new Color(0, 0, 0));
-        titleLabel.setBackground(new Color(173, 24, 24));
-
-        titleLabel.setFont(new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
-
-        titleLabel.setBounds(WIDTH - TITLE_WIDTH - 10, HEIGHT / 2 - TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT);
+        titleLabel = SimpleLabel.createTitleLabel(WIDTH - TITLE_WIDTH - 10, HEIGHT / 2 - TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT,
+                new Color(0, 0, 0), new Color(173, 24, 24), "Minesweeper", new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
 
         add(titleLabel);
     }
 
     private void setButtonsDesign() {
         for (SimpleButton button : buttons) {
-            button.setForeground(new Color(0, 0, 0));
-            button.setBackground(new Color(173, 24, 24));
-            button.setFont(new Font("Arial", Font.BOLD, BUTTON_FONT_SIZE));
+            button.setDesign(new Color(173, 24, 24), new Color(0, 0, 0), BUTTON_FONT_SIZE, "Arial");
         }
     }
 
@@ -177,13 +156,5 @@ public class IntroducingPanel extends JPanel {
 
     public void setSettingsPanel(SettingsPanel settingsPanel) {
         this.settingsPanel = settingsPanel;
-    }
-
-    public boolean isPlayAnimation() {
-        return playAnimation;
-    }
-
-    public void setPlayAnimation(boolean playAnimation) {
-        this.playAnimation = playAnimation;
     }
 }
