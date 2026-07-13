@@ -1,7 +1,6 @@
 package panels;
 
 import enums.Difficulty;
-import utils.RandomGen;
 import utils.SimpleButton;
 
 import javax.swing.*;
@@ -9,8 +8,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class DifficultyPanel extends JPanel {
-    private final int LINES_AMOUNT = 20;
-
     public final static float SIZE_FACTOR = 1.5f;
     public final static int HEIGHT = (int) (IntroducingPanel.HEIGHT / SIZE_FACTOR);
     public final static int WIDTH = (int) (IntroducingPanel.WIDTH / SIZE_FACTOR);
@@ -19,19 +16,18 @@ public class DifficultyPanel extends JPanel {
     private final int BUTTON_HEIGHT = (int) (IntroducingPanel.BUTTON_HEIGHT / SIZE_FACTOR);
     private final float BUTTON_DISTANCE_FACTOR = 1.5f;
     public static final int BUTTON_FONT_SIZE = (int) (IntroducingPanel.BUTTON_FONT_SIZE / SIZE_FACTOR);
+    private final int BUTTON_GAP = (int) (BUTTON_DISTANCE_FACTOR * BUTTON_HEIGHT);
 
     private final int TITLE_WIDTH = 200;
     private final int TITLE_HEIGHT = 50;
     private final int TITLE_FONT_SIZE = 30;
 
-    private final RandomGen rnd;
     private JLabel titleLabel;
     private ArrayList<SimpleButton> buttons;
     private IntroducingPanel introducingPanel;
     private Difficulty selectedDifficulty;
 
     public DifficultyPanel(IntroducingPanel introducingPanel) {
-        this.rnd = new RandomGen();
         this.introducingPanel = introducingPanel;
         this.selectedDifficulty = Difficulty.MEDIUM;
 
@@ -108,7 +104,7 @@ public class DifficultyPanel extends JPanel {
 
     private void setButtonsLocation() {
         for (int i = 0; i < buttons.size(); i++) {
-            buttons.get(i).setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, (int) ((float) (HEIGHT - buttons.size() * BUTTON_HEIGHT) / buttons.size() + i * (BUTTON_DISTANCE_FACTOR * BUTTON_HEIGHT) + TITLE_HEIGHT));
+            buttons.get(i).setLocation(WIDTH / 2 - BUTTON_WIDTH / 2,  2 * TITLE_HEIGHT + i * BUTTON_GAP);
         }
     }
 

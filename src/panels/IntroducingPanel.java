@@ -3,6 +3,9 @@ package panels;
 import gameObjects.Cell;
 import utils.RandomGen;
 import utils.SimpleButton;
+import utils.SoundPlayer;
+import utils.constants.Sounds;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ public class IntroducingPanel extends JPanel {
     private final float BUTTON_DISTANCE_FACTOR = 1.5f;
     private final int BUTTON_X = 40;
     public static final int BUTTON_FONT_SIZE = 20;
+    private final int BUTTON_GAP = (int) (BUTTON_HEIGHT * BUTTON_DISTANCE_FACTOR);
 
     private final int TITLE_WIDTH = 200;
     private final int TITLE_HEIGHT = 50;
@@ -29,27 +33,32 @@ public class IntroducingPanel extends JPanel {
     private final RandomGen rnd;
     private ArrayList<SimpleButton> buttons;
     private DifficultyPanel difficultyPanel;
+    private SettingsPanel settingsPanel;
     private JLabel titleLabel;
     private Timer timer;
     private boolean isPaused;
+    private boolean playAnimation;
 
-    public IntroducingPanel(DifficultyPanel difficultyPanel) {
+    public IntroducingPanel(DifficultyPanel difficultyPanel, SettingsPanel settingsPanel) {
+        this.playAnimation = true;
         this.rnd = new RandomGen();
         this.difficultyPanel = difficultyPanel;
+        this.settingsPanel = settingsPanel;
 
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setLayout(null);
 
-        initButtons(difficultyPanel);
+        initButtons(difficultyPanel, settingsPanel);
         setButtonsDesign();
         setButtonsLocation();
         addButtonsToPanel();
         initTitleLabel();
 
         startAnimation();
+        SoundPlayer.initAudio(Sounds.MAIN_MENU, true);
     }
 
-    private void initButtons(DifficultyPanel difficultyPanel) {
+    private void initButtons(DifficultyPanel difficultyPanel, SettingsPanel settingsPanel) {
         buttons = new ArrayList<>();
 
         buttons.add(createButton("Start", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
@@ -57,10 +66,12 @@ public class IntroducingPanel extends JPanel {
             System.out.println("Start Game button clicked");
         }));
 
-        buttons.add(createButton("Settings",BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
-            // Handle settings action
-            System.out.println("Settings button clicked");
+        buttons.add(createButton("Score", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
+            // Handle
+            System.out.println("Score button clicked");
         }));
+
+        buttons.add(createButton("Settings",BUTTON_WIDTH, BUTTON_HEIGHT, e -> pause(settingsPanel)));
 
         buttons.add(createButton("Difficulty",BUTTON_WIDTH, BUTTON_HEIGHT, e -> pause(difficultyPanel)));
 
@@ -75,7 +86,6 @@ public class IntroducingPanel extends JPanel {
 
         titleLabel.setVisible(false);
 
-        stopAnimation();
         repaint();
     }
 
@@ -87,7 +97,6 @@ public class IntroducingPanel extends JPanel {
 
         titleLabel.setVisible(true);
 
-        startAnimation();
         repaint();
     }
 
@@ -115,7 +124,7 @@ public class IntroducingPanel extends JPanel {
 
     private void setButtonsLocation() {
         for (int i = 0; i < buttons.size(); i++) {
-            buttons.get(i).setLocation(BUTTON_X, (int) ((float) (HEIGHT - buttons.size() * BUTTON_HEIGHT) / buttons.size() + i * (BUTTON_DISTANCE_FACTOR * BUTTON_HEIGHT)));
+            buttons.get(i).setLocation(BUTTON_X, (int) (TITLE_HEIGHT * 0.75 + i * BUTTON_GAP));
         }
     }
 
@@ -135,19 +144,19 @@ public class IntroducingPanel extends JPanel {
         }
 
         if (isPaused) {
-            g.setColor(new Color(0, 0, 0, 120));
+            g.setColor(new Color(0, 0, 0, 150));
             g.fillRect(0, 0, WIDTH, HEIGHT);
         }
     }
 
-    private void startAnimation() {
+    public void startAnimation() {
         if (timer == null) {
-            timer = new Timer(1000, e -> repaint());
+            timer = new Timer(200, e -> repaint());
             timer.start();
         }
     }
 
-    private void stopAnimation() {
+    public void stopAnimation() {
         if (timer != null) {
             timer.stop();
             timer = null;
@@ -160,5 +169,21 @@ public class IntroducingPanel extends JPanel {
 
     public void setDifficultyPanel(DifficultyPanel difficultyPanel) {
         this.difficultyPanel = difficultyPanel;
+    }
+
+    public SettingsPanel getSettingsPanel() {
+        return settingsPanel;
+    }
+
+    public void setSettingsPanel(SettingsPanel settingsPanel) {
+        this.settingsPanel = settingsPanel;
+    }
+
+    public boolean isPlayAnimation() {
+        return playAnimation;
+    }
+
+    public void setPlayAnimation(boolean playAnimation) {
+        this.playAnimation = playAnimation;
     }
 }

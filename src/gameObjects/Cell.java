@@ -1,6 +1,6 @@
 package gameObjects;
 import enums.CellTypes;
-import utils.CellTextures;
+import utils.constants.CellTextures;
 
 import java.awt.*;
 
