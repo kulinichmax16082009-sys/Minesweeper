@@ -1,14 +1,18 @@
 package utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import enums.CellTypes;
 import enums.Difficulty;
 import gameObjects.Cell;
+import gameObjects.Value;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Arrays;
 
 public class Board {
     private Cell[][] cells;
+    private final RandomGen rnd;
     private int numberOfMines;
     private int width;
     private int height;
@@ -17,29 +21,21 @@ public class Board {
     private final String MEDIUM_BOARD_PATH = "resources/boardDifficulties/medium.json";
     private final String HARD_BOARD_PATH = "resources/boardDifficulties/hard.json";
 
-//    public Board(int height, int width, int numberOfMines) {
-//        if (height <= 0 || width <= 0) {
-//            height = 0;
-//            width = 0;
-//        }
-//
-//        if (numberOfMines < 0) numberOfMines = 0;
-//        else if (numberOfMines > height * width) numberOfMines = height * width;
-//
-//        this.height = height;
-//        this.width = width;
-//        this.numberOfMines = numberOfMines;
-//        cells = new Cell[height][width];
-//    }
+    private final int[][] DIRECTIONS = { {-1, 0}, {0, -1}, {0, 1}, {1, 0}, {1, 1}, {-1, -1}, {-1, 1}, {1, -1}};
 
     public Board() {
+        //Handle
+        this.rnd = new RandomGen();
+        //
         this.cells = new Cell[1][1];
         this.numberOfMines = 0;
         this.width = 1;
         this.height = 1;
+
+        normalizeBoard();
     }
 
-    public void generateBoard(Difficulty difficulty) {
+    public void generateBoard(Difficulty difficulty, int firstX, int firstY) {
         switch (difficulty) {
             case EASY:
                 initializeBoard(EASY_BOARD_PATH);
@@ -56,6 +52,9 @@ public class Board {
                 numberOfMines = 0;
                 break;
         }
+        placeZerosNear(firstX, firstY);
+        placeMines();
+        calculateCellsValue();
     }
 
     private void initializeBoard(String jsonFilePath) {
@@ -73,6 +72,75 @@ public class Board {
         normalizeBoard();
     }
 
+    private void placeMines() {
+        while (numberOfMines > 0) {
+
+            int x = rnd.randomNumber(0, width - 1);
+            int y = rnd.randomNumber(0, height - 1);
+
+            if (cells[y][x].getType() == CellTypes.MINE || cells[y][x].getValue().getNumber() == 0) continue;
+
+            cells[y][x] = new Cell(CellTypes.MINE, new Value(0), false);
+
+            numberOfMines--;
+        }
+    }
+
+    private void calculateCellsValue() {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+
+                if (cells[i][j].getType() == CellTypes.MINE) continue;
+
+                int value = 0;
+
+                for (int[] d : DIRECTIONS) {
+                    int x = d[0] + j;
+                    int y = d[1] + i;
+
+                    if  (y < 0 || y >= cells.length || x < 0 || x >= cells[i].length) continue;
+                    if (cells[y][x].getType() == CellTypes.MINE) value++;
+                }
+
+                cells[i][j] = new Cell(CellTypes.NUMBER, new Value(value), false);
+            }
+        }
+    }
+
+    public void placeZerosNear(int x, int y) {
+        int amount = rnd.randomNumber(2, 10);
+
+        for (int i = 0; i < amount; i++) {
+            for (int[] d : DIRECTIONS) {
+                int newX = d[0] * i + x;
+                int newY = d[1] * i + y;
+
+                if (newY < 0 || newY >= cells.length || newX < 0 || newX >= cells[0].length) continue;
+
+                cells[newY][newX].setValue(new Value(0));
+            }
+        }
+    }
+
+    public void openZerosNear(int x, int y) {
+        if (cells[y][x].getValue().getNumber() != 0 || cells[y][x].getType() != CellTypes.NUMBER) return;
+
+        for (int[] d : DIRECTIONS) {
+            int newX = d[0] + x;
+            int newY = d[1] + y;
+
+            if (newY < 0 || newY >= cells.length || newX < 0 || newX >= cells[0].length) continue;
+
+            Cell newCell = cells[newY][newX];
+
+            if (newCell.isRevealed()) continue;
+
+            newCell.reveal();
+
+            if (newCell.getValue().getNumber() == 0) openZerosNear(newX, newY);
+        }
+    }
+
     private void normalizeBoard() {
         if (height <= 0 || width <= 0) {
             height = 1;
@@ -83,6 +151,20 @@ public class Board {
         else if (numberOfMines > height * width) numberOfMines = height * width;
 
         cells = new Cell[height][width];
+
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                cells[i][j] = new Cell();
+            }
+        }
+    }
+
+    public Cell[][] getCells() {
+        return cells;
+    }
+
+    public void setCells(Cell[][] cells) {
+        this.cells = cells;
     }
 
     public int getWidth() {
@@ -112,7 +194,7 @@ public class Board {
     @Override
     public String toString() {
         return "Board{" +
-                "cells=" + cells +
+                "cells=" + Arrays.deepToString(cells) +
                 ", numberOfMines=" + numberOfMines +
                 ", width=" + width +
                 ", height=" + height +

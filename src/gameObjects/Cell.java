@@ -1,7 +1,9 @@
 package gameObjects;
 import enums.CellTypes;
 import utils.constants.CellTextures;
+import utils.constants.Sounds;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class Cell {
@@ -9,33 +11,45 @@ public class Cell {
     private boolean isRevealed;
     private CellTypes type;
     private Image icon;
+    private String sound;
 
     public static final int CELL_SIZE = 32;
 
     public Cell(CellTypes type, Value value, boolean isRevealed) {
-        if (type == CellTypes.MINE) this.value = null;
+        if (type == CellTypes.MINE) this.value = new Value(-1);
         else this.value = value;
 
         if (!isRevealed) this.icon = CellTextures.HIDDEN;
-        else setIconByType(type);
+        else setCellByType(type);
 
         this.type = type;
         this.isRevealed = isRevealed;
     }
 
-    private void setIconByType(CellTypes type) {
+    public Cell() {
+        type = CellTypes.NUMBER;
+        isRevealed = false;
+        value = new Value(-1);
+        icon = new ImageIcon("").getImage();
+    }
+
+    private void setCellByType(CellTypes type) {
         switch (type) {
             case MINE:
                 icon = CellTextures.MINE;
+                sound = Sounds.MINE;
                 break;
             case FLAGGED:
                 icon = CellTextures.FLAGGED;
+                sound = Sounds.FLAG;
                 break;
             case NUMBER:
                 icon = CellTextures.NUMBER;
+                sound = Sounds.NUMBER;
                 break;
             default:
                 icon = null;
+                sound = "";
         }
     }
 
@@ -96,8 +110,15 @@ public class Cell {
 
     public void reveal() {
         if (!isRevealed) {
-            setIconByType(type);
+            setCellByType(type);
             isRevealed = true;
+        }
+    }
+
+    public void hide() {
+        if (isRevealed) {
+            icon = CellTextures.HIDDEN;
+            isRevealed = false;
         }
     }
 
@@ -115,6 +136,23 @@ public class Cell {
 
     public void setType(CellTypes type) {
         this.type = type;
+        setCellByType(type);
+    }
+
+    public boolean isRevealed() {
+        return isRevealed;
+    }
+
+    public String getSound() {
+        return sound;
+    }
+
+    public void setSound(String sound) {
+        this.sound = sound;
+    }
+
+    public void setRevealed(boolean revealed) {
+        isRevealed = revealed;
     }
 
     @Override

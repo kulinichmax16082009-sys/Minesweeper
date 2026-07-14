@@ -1,16 +1,21 @@
 package utils;
 import javax.sound.sampled.*;
+import java.io.File;
 
 public class SoundPlayer {
     private static Clip clip;
 
-    public static void initAudio(AudioInputStream audio, boolean shouldLoop) {
+    public static void play(String path, boolean shouldLoop) {
         try {
 
-            if (clip == null) {
-                clip = AudioSystem.getClip();
+            if (clip != null && clip.isRunning()) {
+                clip.stop();
+                clip.close();
             }
 
+            AudioInputStream audio = AudioSystem.getAudioInputStream(new File(path));
+
+            clip = AudioSystem.getClip();
             clip.open(audio);
 
             if (shouldLoop) {
@@ -26,12 +31,10 @@ public class SoundPlayer {
         }
     }
 
-    public static void unpause() {
-        if (clip != null) clip.start();
-    }
-
-
-    public static void pause() {
-        if (clip != null) clip.stop();
+    public static void stop() {
+        if (clip != null) {
+            clip.stop();
+            clip.close();
+        }
     }
 }

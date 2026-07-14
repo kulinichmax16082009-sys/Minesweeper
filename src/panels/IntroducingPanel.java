@@ -1,11 +1,14 @@
 package panels;
 
+import enums.Difficulty;
 import gameObjects.Cell;
+import utils.Board;
 import utils.RandomGen;
 import utils.simpleUI.SimpleButton;
 import utils.SoundPlayer;
 import utils.constants.Sounds;
 import utils.simpleUI.SimpleLabel;
+import windows.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,22 +50,25 @@ public class IntroducingPanel extends JPanel {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setLayout(null);
 
-        initButtons(difficultyPanel, settingsPanel);
+        initButtons();
         setButtonsDesign();
         setButtonsLocation();
         addButtonsToPanel();
         initTitleLabel();
 
         startAnimation();
-        SoundPlayer.initAudio(Sounds.MAIN_MENU, true);
+        SoundPlayer.play(Sounds.MAIN_MENU, true);
     }
 
-    private void initButtons(DifficultyPanel difficultyPanel, SettingsPanel settingsPanel) {
+    private void initButtons() {
         buttons = new ArrayList<>();
 
         buttons.add(createButton("Start", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
-            // Handle start game action
-            System.out.println("Start Game button clicked");
+            Board board = new Board();
+            board.generateBoard(Difficulty.HARD, 0,0);
+
+            System.out.println(board);
+            GameWindow gameWindow = new GameWindow(new GamePanel(board));
         }));
 
         buttons.add(createButton("Score", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {

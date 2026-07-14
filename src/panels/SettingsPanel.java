@@ -1,5 +1,6 @@
 package panels;
 
+import utils.constants.Sounds;
 import utils.simpleUI.SimpleButton;
 import utils.simpleUI.SimpleCheckBox;
 import utils.simpleUI.SimpleLabel;
@@ -64,8 +65,8 @@ public class SettingsPanel extends JPanel {
         }));
 
         checkBoxes.add(SimpleCheckBox.createCheckBox("Play Menu Music", CHECK_BOX_WIDTH, CHECK_BOX_HEIGHT, true, e -> {
-            if (((SimpleCheckBox) e.getSource()).isSelected()) SoundPlayer.unpause();
-            else SoundPlayer.pause();
+            if (((SimpleCheckBox) e.getSource()).isSelected()) SoundPlayer.play(Sounds.MAIN_MENU, true);
+            else SoundPlayer.stop();
         }));
     }
 

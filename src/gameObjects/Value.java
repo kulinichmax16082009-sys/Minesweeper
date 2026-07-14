@@ -17,7 +17,7 @@ public class Value {
     private final String JSON_FILE_PATH = "resources/colors.json";
 
     public Value(int number) {
-        if (number < 0 || number > 9) number = 0;
+        if (number < -1 || number > 8) number = 0;
 
         initPossibleColors();
         this.number = number;
