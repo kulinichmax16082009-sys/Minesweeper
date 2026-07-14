@@ -1,40 +1,54 @@
 package utils;
+
 import javax.sound.sampled.*;
 import java.io.File;
+import java.util.HashMap;
 
 public class SoundPlayer {
-    private static Clip clip;
 
-    public static void play(String path, boolean shouldLoop) {
+    private final static HashMap<String, Clip> sounds = new HashMap<>();
+
+    public static void load(String path) {
         try {
+            AudioInputStream audio =
+                    AudioSystem.getAudioInputStream(new File(path));
 
-            if (clip != null && clip.isRunning()) {
-                clip.stop();
-                clip.close();
-            }
-
-            AudioInputStream audio = AudioSystem.getAudioInputStream(new File(path));
-
-            clip = AudioSystem.getClip();
+            Clip clip = AudioSystem.getClip();
             clip.open(audio);
 
-            if (shouldLoop) {
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            }
-
-            clip.start();
+            sounds.put(path, clip);
 
         } catch (Exception e) {
-
-            //Handle
             e.printStackTrace();
         }
     }
 
-    public static void stop() {
-        if (clip != null) {
-            clip.stop();
-            clip.close();
+
+    public static void play(String name, boolean loop) {
+        Clip clip = sounds.get(name);
+
+        if (clip == null) return;
+
+        clip.stop();
+        clip.setFramePosition(0);
+        clip.setMicrosecondPosition(0);
+
+        if (loop) {
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } else {
+            clip.start();
+        }
+    }
+
+    public static void unpause(String path) {
+        if (sounds.get(path) != null) {
+            sounds.get(path).start();
+        }
+    }
+
+    public static void pause(String path) {
+        if (sounds.get(path) != null) {
+            sounds.get(path).stop();
         }
     }
 }

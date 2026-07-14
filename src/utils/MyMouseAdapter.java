@@ -4,6 +4,7 @@ import enums.CellTypes;
 import enums.Difficulty;
 import gameObjects.Cell;
 import panels.GamePanel;
+import utils.constants.Sounds;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -39,6 +40,7 @@ public class MyMouseAdapter extends MouseAdapter {
 
             board.getCells()[y][x].reveal();
             board.openZerosNear(x, y);
+            SoundPlayer.play(board.getCells()[y][x].getSound(), false);
         }
 
         if (e.getButton() == MouseEvent.BUTTON3) {
@@ -51,13 +53,12 @@ public class MyMouseAdapter extends MouseAdapter {
                 } else {
                     board.getCells()[y][x].setType(CellTypes.NUMBER);
                 }
-
                 board.getCells()[y][x].hide();
             }
+            SoundPlayer.play(Sounds.FLAG, false);
         }
 
         gamePanel.repaint();
-        SoundPlayer.play(board.getCells()[y][x].getSound(), false);
     }
 
     public Board getBoard() {
