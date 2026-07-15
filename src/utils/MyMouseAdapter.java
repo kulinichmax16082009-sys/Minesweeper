@@ -2,7 +2,7 @@ package utils;
 
 import enums.CellTypes;
 import gameObjects.Cell;
-import panels.GamePanel;
+import panels.BoardPanel;
 import utils.constants.Sounds;
 
 import java.awt.event.MouseAdapter;
@@ -10,26 +10,22 @@ import java.awt.event.MouseEvent;
 
 public class MyMouseAdapter extends MouseAdapter {
     private final Board board;
-    private final GamePanel gamePanel;
+    private final BoardPanel boardPanel;
     private boolean firstReveal;
 
-    public MyMouseAdapter(Board board, GamePanel gamePanel) {
+    public MyMouseAdapter(Board board, BoardPanel boardPanel) {
         firstReveal = true;
         this.board = board;
-        this.gamePanel = gamePanel;
+        this.boardPanel = boardPanel;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
-        int x = e.getX() / Cell.CELL_SIZE;
-        int y = e.getY() / Cell.CELL_SIZE;
+        int x = (e.getX()) / Cell.CELL_SIZE;
+        int y = (e.getY()) / Cell.CELL_SIZE;
 
-//        System.out.println(e.getX());
-//        System.out.println(e.getY());
-//
-//        System.out.println(x);
-//        System.out.println(y);
+        if (x < 0 || x >= board.getWidth() || y < 0 || y >= board.getHeight()) return;
 
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (firstReveal) {
@@ -60,6 +56,6 @@ public class MyMouseAdapter extends MouseAdapter {
             }
         }
 
-        gamePanel.repaint();
+        boardPanel.repaint();
     }
 }

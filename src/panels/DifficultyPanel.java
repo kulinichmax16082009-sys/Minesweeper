@@ -23,7 +23,6 @@ public class DifficultyPanel extends JPanel {
     private final int TITLE_HEIGHT = 50;
     private final int TITLE_FONT_SIZE = 30;
 
-    private JLabel titleLabel;
     private ArrayList<SimpleButton> buttons;
     private IntroducingPanel introducingPanel;
     private Difficulty selectedDifficulty;
@@ -48,20 +47,18 @@ public class DifficultyPanel extends JPanel {
     private void initButtons() {
         buttons = new ArrayList<>();
 
-        buttons.add(SimpleButton.createButton("Easy", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
-            selectedDifficulty = Difficulty.EASY;
-            introducingPanel.setPaused(this, false);
-        }));
+        for (int i = 0; i < Difficulty.values().length; i++) {
+            int finalI = i;
+            String text = Difficulty.values()[i].name().toLowerCase();
+            String firstLetter = String.valueOf(text.charAt(0));
 
-        buttons.add(SimpleButton.createButton("Medium", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
-            selectedDifficulty = Difficulty.MEDIUM;
-            introducingPanel.setPaused(this, false);
-        }));
+            String name = firstLetter.toUpperCase() + text.substring(1);
 
-        buttons.add(SimpleButton.createButton("Hard", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
-            selectedDifficulty = Difficulty.HARD;
-            introducingPanel.setPaused(this, false);
-        }));
+            buttons.add(SimpleButton.createButton(name, BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
+                selectedDifficulty = Difficulty.values()[finalI];
+                introducingPanel.setPaused(this, false);
+            }));
+        }
     }
 
     private void setButtonsDesign() {
@@ -71,7 +68,7 @@ public class DifficultyPanel extends JPanel {
     }
 
     private void initTitleLabel() {
-        titleLabel = SimpleLabel.createTitleLabel(WIDTH / 2 - TITLE_WIDTH / 2, TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT,
+        SimpleLabel titleLabel = SimpleLabel.createTitleLabel(WIDTH / 2 - TITLE_WIDTH / 2, TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT,
                 new Color(0, 0, 0), new Color(0, 100, 0), "Difficulty", new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
         add(titleLabel);
     }

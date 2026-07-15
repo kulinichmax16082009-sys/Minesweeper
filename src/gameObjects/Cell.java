@@ -1,6 +1,6 @@
 package gameObjects;
 import enums.CellTypes;
-import utils.constants.CellTextures;
+import utils.constants.Images;
 import utils.constants.Sounds;
 
 import javax.swing.*;
@@ -19,7 +19,7 @@ public class Cell {
         if (type == CellTypes.MINE) this.value = new Value(-1);
         else this.value = value;
 
-        if (!isRevealed) this.icon = CellTextures.HIDDEN;
+        if (!isRevealed) this.icon = Images.HIDDEN;
         else setCellByType(type);
 
         this.type = type;
@@ -36,15 +36,15 @@ public class Cell {
     private void setCellByType(CellTypes type) {
         switch (type) {
             case MINE:
-                icon = CellTextures.MINE;
+                icon = Images.MINE;
                 sound = Sounds.MINE;
                 break;
             case FLAGGED:
-                icon = CellTextures.FLAGGED;
+                icon = Images.FLAGGED;
                 sound = Sounds.FLAG;
                 break;
             case NUMBER:
-                icon = CellTextures.NUMBER;
+                icon = Images.NUMBER;
                 sound = Sounds.NUMBER;
                 break;
             default:
@@ -114,7 +114,7 @@ public class Cell {
     }
 
     public void hide() {
-        icon = CellTextures.HIDDEN;
+        icon = Images.HIDDEN;
         isRevealed = false;
     }
 
@@ -141,14 +141,6 @@ public class Cell {
 
     public String getSound() {
         return sound;
-    }
-
-    public void setSound(String sound) {
-        this.sound = sound;
-    }
-
-    public void setRevealed(boolean revealed) {
-        isRevealed = revealed;
     }
 
     @Override

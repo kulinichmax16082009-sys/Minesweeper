@@ -36,7 +36,7 @@ public class IntroducingPanel extends JPanel {
     private ArrayList<SimpleButton> buttons;
     private DifficultyPanel difficultyPanel;
     private SettingsPanel settingsPanel;
-    private JLabel titleLabel;
+    private SimpleLabel titleLabel;
     private Timer timer;
     private boolean isPaused;
 

@@ -29,7 +29,6 @@ public class SettingsPanel extends JPanel {
     public static final int BUTTON_FONT_SIZE = (int) (IntroducingPanel.BUTTON_FONT_SIZE / SIZE_FACTOR);
 
     private IntroducingPanel introducingPanel;
-    private JLabel titleLabel;
     private ArrayList<SimpleCheckBox> checkBoxes;
 
     public SettingsPanel(IntroducingPanel introducingPanel) {
@@ -50,7 +49,7 @@ public class SettingsPanel extends JPanel {
     }
 
     private void initTitleLabel() {
-        titleLabel = SimpleLabel.createTitleLabel(WIDTH / 2 - TITLE_WIDTH / 2, TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT,
+        SimpleLabel titleLabel = SimpleLabel.createTitleLabel(WIDTH / 2 - TITLE_WIDTH / 2, TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT,
                 new Color(0, 0, 0), new Color(0, 0, 240), "Settings", new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
 
         add(titleLabel);

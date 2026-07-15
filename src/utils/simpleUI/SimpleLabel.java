@@ -5,6 +5,10 @@ import java.awt.*;
 
 public class SimpleLabel extends JLabel {
 
+    public SimpleLabel(Icon image, int horizontalAlignment) {
+        super(image, horizontalAlignment);
+    }
+
     public SimpleLabel(String text, int horizontalAlignment) {
         super(text, horizontalAlignment);
     }
