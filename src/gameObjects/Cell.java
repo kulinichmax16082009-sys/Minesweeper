@@ -1,7 +1,6 @@
 package gameObjects;
 import enums.CellTypes;
 import utils.constants.Images;
-import utils.constants.Sounds;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,38 +18,16 @@ public class Cell {
         if (type == CellTypes.MINE) this.value = new Value(-1);
         else this.value = value;
 
-        if (!isRevealed) this.icon = Images.HIDDEN;
-        else setCellByType(type);
-
         this.type = type;
         this.isRevealed = isRevealed;
+
+        if (!isRevealed) this.icon = Images.HIDDEN;
+        else setCellByType();
     }
 
-    public Cell() {
-        type = CellTypes.NUMBER;
-        isRevealed = false;
-        value = new Value(-1);
-        icon = new ImageIcon("").getImage();
-    }
-
-    private void setCellByType(CellTypes type) {
-        switch (type) {
-            case MINE:
-                icon = Images.MINE;
-                sound = Sounds.MINE;
-                break;
-            case FLAGGED:
-                icon = Images.FLAGGED;
-                sound = Sounds.FLAG;
-                break;
-            case NUMBER:
-                icon = Images.NUMBER;
-                sound = Sounds.NUMBER;
-                break;
-            default:
-                icon = null;
-                sound = "";
-        }
+    private void setCellByType() {
+        icon = type.getIcon();
+        sound = type.getSoundPath();
     }
 
     public void paint(Graphics g, int x, int y) {
@@ -109,7 +86,7 @@ public class Cell {
     }
 
     public void reveal() {
-        setCellByType(type);
+        setCellByType();
         isRevealed = true;
     }
 
@@ -132,7 +109,7 @@ public class Cell {
 
     public void setType(CellTypes type) {
         this.type = type;
-        setCellByType(type);
+        setCellByType();
     }
 
     public boolean isRevealed() {

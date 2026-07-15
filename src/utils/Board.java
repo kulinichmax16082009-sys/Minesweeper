@@ -5,6 +5,7 @@ import enums.CellTypes;
 import enums.Difficulty;
 import gameObjects.Cell;
 import gameObjects.Value;
+import windows.BasicWindow;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -17,10 +18,6 @@ public class Board {
     private int width;
     private int height;
     private Difficulty difficulty;
-
-    private final String EASY_BOARD_PATH = "resources/boardDifficulties/easy.json";
-    private final String MEDIUM_BOARD_PATH = "resources/boardDifficulties/medium.json";
-    private final String HARD_BOARD_PATH = "resources/boardDifficulties/hard.json";
 
     private final int[][] DIRECTIONS = { {-1, 0}, {0, -1}, {0, 1}, {1, 0}, {1, 1}, {-1, -1}, {-1, 1}, {1, -1}};
 
@@ -39,22 +36,7 @@ public class Board {
     }
 
     public void generateBoard(int firstX, int firstY) {
-        switch (difficulty) {
-            case EASY:
-                initializeBoard(EASY_BOARD_PATH);
-                break;
-            case MEDIUM:
-                initializeBoard(MEDIUM_BOARD_PATH);
-                break;
-            case HARD:
-                initializeBoard(HARD_BOARD_PATH);
-                break;
-            default:
-                height = 1;
-                width = 1;
-                numberOfMines = 0;
-                break;
-        }
+        initializeBoard(difficulty.getBoardPath());
         placeZerosNear(firstX, firstY);
         placeMines();
         calculateCellsValue();
@@ -66,6 +48,7 @@ public class Board {
         try (InputStream input = new FileInputStream(jsonFilePath)) {
             mapper.readerForUpdating(this).readValue(input);
         } catch (Exception e) {
+            BasicWindow.showErrorMessage("Error while loading board from .json");
             this.cells = new Cell[1][1];
             this.numberOfMines = 0;
             this.width = 1;
@@ -157,9 +140,31 @@ public class Board {
 
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                cells[i][j] = new Cell();
+                cells[i][j] = new Cell(CellTypes.NUMBER, new Value(-1), false);
             }
         }
+    }
+
+    public boolean isDead() {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                if (cells[i][j].isRevealed() && cells[i][j].getType() == CellTypes.MINE) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isWin() {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                if (cells[i][j].getType() == CellTypes.MINE) return false;
+            }
+        }
+
+        return true;
     }
 
     public Cell[][] getCells() {
