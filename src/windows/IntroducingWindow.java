@@ -42,4 +42,8 @@ public class IntroducingWindow extends BasicWindow {
 
         frame.add(introducingPanel, BorderLayout.CENTER);
     }
+
+    public DifficultyPanel getDifficultyPanel() {
+        return difficultyPanel;
+    }
 }

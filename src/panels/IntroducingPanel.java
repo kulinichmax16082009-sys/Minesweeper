@@ -1,14 +1,12 @@
 package panels;
 
-import enums.Difficulty;
 import gameObjects.Cell;
-import utils.Board;
+import utils.Game;
 import utils.RandomGen;
 import utils.simpleUI.SimpleButton;
 import utils.SoundPlayer;
 import utils.constants.Sounds;
 import utils.simpleUI.SimpleLabel;
-import windows.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,11 +62,10 @@ public class IntroducingPanel extends JPanel {
         buttons = new ArrayList<>();
 
         buttons.add(createButton("Start", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
-            Board board = new Board();
-            board.generateBoard(Difficulty.HARD, 0,0);
-
-            System.out.println(board);
-            GameWindow gameWindow = new GameWindow(new GamePanel(board));
+            Game.play();
+            SoundPlayer.pause(Sounds.MAIN_MENU);
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            frame.dispose();
         }));
 
         buttons.add(createButton("Score", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {

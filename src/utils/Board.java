@@ -16,6 +16,7 @@ public class Board {
     private int numberOfMines;
     private int width;
     private int height;
+    private Difficulty difficulty;
 
     private final String EASY_BOARD_PATH = "resources/boardDifficulties/easy.json";
     private final String MEDIUM_BOARD_PATH = "resources/boardDifficulties/medium.json";
@@ -23,7 +24,7 @@ public class Board {
 
     private final int[][] DIRECTIONS = { {-1, 0}, {0, -1}, {0, 1}, {1, 0}, {1, 1}, {-1, -1}, {-1, 1}, {1, -1}};
 
-    public Board() {
+    public Board(Difficulty difficulty) {
         //Handle
         this.rnd = new RandomGen();
         //
@@ -32,10 +33,12 @@ public class Board {
         this.width = 1;
         this.height = 1;
 
+        this.difficulty = difficulty;
+
         normalizeBoard();
     }
 
-    public void generateBoard(Difficulty difficulty, int firstX, int firstY) {
+    public void generateBoard(int firstX, int firstY) {
         switch (difficulty) {
             case EASY:
                 initializeBoard(EASY_BOARD_PATH);
@@ -189,6 +192,14 @@ public class Board {
 
     public void setNumberOfMines(int numberOfMines) {
         this.numberOfMines = numberOfMines;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     @Override

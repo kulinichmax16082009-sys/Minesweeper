@@ -109,17 +109,13 @@ public class Cell {
     }
 
     public void reveal() {
-        if (!isRevealed) {
-            setCellByType(type);
-            isRevealed = true;
-        }
+        setCellByType(type);
+        isRevealed = true;
     }
 
     public void hide() {
-        if (isRevealed) {
-            icon = CellTextures.HIDDEN;
-            isRevealed = false;
-        }
+        icon = CellTextures.HIDDEN;
+        isRevealed = false;
     }
 
     public Value getValue() {

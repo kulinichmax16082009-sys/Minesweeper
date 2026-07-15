@@ -1,5 +1,7 @@
 package utils;
 
+import windows.BasicWindow;
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.util.HashMap;
@@ -7,6 +9,7 @@ import java.util.HashMap;
 public class SoundPlayer {
 
     private final static HashMap<String, Clip> sounds = new HashMap<>();
+    private static boolean playSound = true;
 
     public static void load(String path) {
         try {
@@ -19,24 +22,27 @@ public class SoundPlayer {
             sounds.put(path, clip);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            BasicWindow.showErrorMessage("Error while loading sounds!");
         }
     }
 
 
     public static void play(String name, boolean loop) {
-        Clip clip = sounds.get(name);
+        if (playSound) {
 
-        if (clip == null) return;
+            Clip clip = sounds.get(name);
 
-        clip.stop();
-        clip.setFramePosition(0);
-        clip.setMicrosecondPosition(0);
+            if (clip == null) return;
 
-        if (loop) {
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-        } else {
-            clip.start();
+            clip.stop();
+            clip.setFramePosition(0);
+            clip.setMicrosecondPosition(0);
+
+            if (loop) {
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } else {
+                clip.start();
+            }
         }
     }
 
@@ -50,5 +56,9 @@ public class SoundPlayer {
         if (sounds.get(path) != null) {
             sounds.get(path).stop();
         }
+    }
+
+    public static void setPlaySound(boolean playSound) {
+        SoundPlayer.playSound = playSound;
     }
 }

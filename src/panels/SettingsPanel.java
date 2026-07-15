@@ -68,6 +68,8 @@ public class SettingsPanel extends JPanel {
             if (((SimpleCheckBox) e.getSource()).isSelected()) SoundPlayer.unpause(Sounds.MAIN_MENU);
             else SoundPlayer.pause(Sounds.MAIN_MENU);
         }));
+
+        checkBoxes.add(SimpleCheckBox.createCheckBox("Play Game Sound", CHECK_BOX_WIDTH, CHECK_BOX_HEIGHT, true, e -> SoundPlayer.setPlaySound(((SimpleCheckBox) e.getSource()).isSelected())));
     }
 
     private void setCheckBoxesLocation() {
