@@ -8,7 +8,7 @@ import java.awt.*;
 public enum CellTypes {
     NUMBER(Sounds.NUMBER, Images.NUMBER),
     MINE(Sounds.MINE, Images.MINE),
-    FLAGGED(Sounds.FLAG, Images.FLAGGED);
+    FLAG(Sounds.FLAG, Images.FLAG);
 
     private final String soundPath;
     private final Image icon;

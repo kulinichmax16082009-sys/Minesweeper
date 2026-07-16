@@ -9,7 +9,6 @@ import windows.BasicWindow;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Arrays;
 
 public class Board {
     private Cell[][] cells;
@@ -59,7 +58,9 @@ public class Board {
     }
 
     private void placeMines() {
-        while (numberOfMines > 0) {
+        int minesAmount = numberOfMines;
+
+        while (minesAmount > 0) {
 
             int x = rnd.randomNumber(0, width - 1);
             int y = rnd.randomNumber(0, height - 1);
@@ -68,7 +69,7 @@ public class Board {
 
             cells[y][x] = new Cell(CellTypes.MINE, new Value(0), false);
 
-            numberOfMines--;
+            minesAmount--;
         }
     }
 
@@ -145,6 +146,18 @@ public class Board {
         }
     }
 
+    public void revealAllMines() {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                if (cells[i][j].getValue().getNumber() == -1) {
+                    cells[i][j].setType(CellTypes.MINE);
+                    cells[i][j].reveal();
+                    numberOfMines = 0;
+                }
+            }
+        }
+    }
+
     public boolean isDead() {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
@@ -165,6 +178,14 @@ public class Board {
         }
 
         return true;
+    }
+
+    public void subtractNumberOfMines() {
+        numberOfMines--;
+    }
+
+    public void addNumberOfMines() {
+        numberOfMines++;
     }
 
     public Cell[][] getCells() {
@@ -195,25 +216,11 @@ public class Board {
         return numberOfMines;
     }
 
-    public void setNumberOfMines(int numberOfMines) {
-        this.numberOfMines = numberOfMines;
-    }
-
     public Difficulty getDifficulty() {
         return difficulty;
     }
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
-    }
-
-    @Override
-    public String toString() {
-        return "Board{" +
-                "cells=" + Arrays.deepToString(cells) +
-                ", numberOfMines=" + numberOfMines +
-                ", width=" + width +
-                ", height=" + height +
-                '}';
     }
 }

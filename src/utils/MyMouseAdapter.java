@@ -25,10 +25,13 @@ public class MyMouseAdapter extends MouseAdapter {
         int x = (e.getX()) / Cell.CELL_SIZE;
         int y = (e.getY()) / Cell.CELL_SIZE;
 
+        if (board.isDead()) return;
+
         if (x < 0 || x >= board.getWidth() || y < 0 || y >= board.getHeight()) return;
 
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (firstReveal) {
+                Game.startTimer();
                 board.generateBoard(x, y);
                 firstReveal = false;
             }
@@ -41,17 +44,19 @@ public class MyMouseAdapter extends MouseAdapter {
         }
 
         if (e.getButton() == MouseEvent.BUTTON3) {
-            if (!board.getCells()[y][x].isRevealed()) {
-                board.getCells()[y][x].setType(CellTypes.FLAGGED);
+            if (!board.getCells()[y][x].isRevealed() && board.getNumberOfMines() > 0) {
+                board.getCells()[y][x].setType(CellTypes.FLAG);
                 board.getCells()[y][x].reveal();
+                board.subtractNumberOfMines();
                 SoundPlayer.play(Sounds.FLAG, false);
-            } else if (board.getCells()[y][x].getType() == CellTypes.FLAGGED) {
+            } else if (board.getCells()[y][x].getType() == CellTypes.FLAG) {
                 if (board.getCells()[y][x].getValue().getNumber() == -1) {
                     board.getCells()[y][x].setType(CellTypes.MINE);
                 } else {
                     board.getCells()[y][x].setType(CellTypes.NUMBER);
                 }
                 SoundPlayer.play(Sounds.FLAG, false);
+                board.addNumberOfMines();
                 board.getCells()[y][x].hide();
             }
         }

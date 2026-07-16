@@ -2,7 +2,6 @@ package gameObjects;
 import enums.CellTypes;
 import utils.constants.Images;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class Cell {
@@ -53,7 +52,7 @@ public class Cell {
                 g2d.setColor(new Color(0,0,0));
                 g2d.fillRect(x, y, CELL_SIZE, CELL_SIZE);
                 break;
-            case FLAGGED:
+            case FLAG:
                 g2d.setColor(new Color(255,0,0));
                 g2d.fillRect(x, y, CELL_SIZE, CELL_SIZE);
                 break;

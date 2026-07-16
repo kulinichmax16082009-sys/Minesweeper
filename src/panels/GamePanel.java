@@ -1,8 +1,6 @@
 package panels;
 import gameObjects.Cell;
 import gameObjects.Player;
-import utils.Board;
-import utils.constants.Images;
 import utils.simpleUI.SimpleLabel;
 
 import javax.swing.*;
@@ -12,58 +10,107 @@ public class GamePanel extends JPanel {
     public static final int TITLE_CELLS_AMOUNT_HEIGHT = 4;
     public static final int TITLE_CELLS_AMOUNT_WIDTH = 2;
 
-    private Board board;
-    private Player player;
-    private SimpleLabel titleLabel;
-    private BoardPanel boardPanel;
+    private final int TIME_WIDTH = 200;
+    private final int TIME_HEIGHT = 30;
+    private final int TIME_FONT_SIZE = 17;
 
-    public GamePanel(Board board, BoardPanel boardPanel, Player player) {
-        this.board = board;
+    private final Player player;
+    private SimpleLabel timeLabel;
+    private SimpleLabel flagsLabel;
+    private final BoardPanel boardPanel;
+
+    public GamePanel(BoardPanel boardPanel, Player player) {
         this.player = player;
         this.boardPanel = boardPanel;
 
-        initEmojiLabel();
+        initTimeLabel();
+        initFlagsLabel();
+
+        Timer timer = new Timer(16, e -> {
+            repaint();
+            updateFlagsLabel();
+        });
+
+        timer.start();
 
         add(boardPanel);
         setComponentZOrder(boardPanel, 0);
 
         setLayout(null);
         setPreferredSize(new Dimension(width(), height()));
-
+        setBackground(new Color(191, 191, 191));
     }
 
-    public void initEmojiLabel() {
-        ImageIcon icon = new ImageIcon(Images.PLAYER_ALIVE);
+    private void initTimeLabel() {
+        timeLabel = SimpleLabel.createTitleLabel(Cell.CELL_SIZE, Cell.CELL_SIZE + Cell.CELL_SIZE / 2,
+                TIME_WIDTH, TIME_HEIGHT,
+                new Color(0,0,0), new Color(191, 191, 191),
+                "Time: 0", new Font("Arial", Font.BOLD, TIME_FONT_SIZE));
 
-        titleLabel = new SimpleLabel(icon, JLabel.CENTER);
+        timeLabel.setBorder(BorderFactory.createLineBorder(new Color(154, 154, 154), 3));
 
-        titleLabel.setBounds((width() - icon.getIconWidth()) / 2, 10, icon.getIconWidth(), icon.getIconHeight());
+        add(timeLabel);
+    }
 
-        add(titleLabel);
+    private void initFlagsLabel() {
+        flagsLabel = SimpleLabel.createTitleLabel(Cell.CELL_SIZE, Cell.CELL_SIZE - Cell.CELL_SIZE / 2,
+                TIME_WIDTH, TIME_HEIGHT,
+                new Color(0,0,0), new Color(191, 191, 191),
+                "Flags left: " + boardPanel.getBoard().getNumberOfMines(), new Font("Arial", Font.BOLD, TIME_FONT_SIZE));
+
+        flagsLabel.setBorder(BorderFactory.createLineBorder(new Color(154, 154, 154), 3));
+
+        add(flagsLabel);
+    }
+
+    public void updateTimeLabel(long time) {
+        if (time >= 60) {
+            long minutes = 0;
+            long seconds = time;
+
+            while (seconds >= 60) {
+                seconds -= 60;
+                minutes++;
+            }
+            timeLabel.setText("Time: " + minutes + " min " + seconds + " s");
+
+        } else {
+            timeLabel.setText("Time: " + time + " s");
+        }
+    }
+
+    public void updateFlagsLabel() {
+        flagsLabel.setText("Flags left: " + boardPanel.getBoard().getNumberOfMines());
     }
 
     public int width() {
-        return board.getWidth() * Cell.CELL_SIZE + TITLE_CELLS_AMOUNT_WIDTH * Cell.CELL_SIZE;
+        return boardPanel.getBoard().getWidth() * Cell.CELL_SIZE + TITLE_CELLS_AMOUNT_WIDTH * Cell.CELL_SIZE;
     }
 
     public int height() {
-        return board.getHeight() * Cell.CELL_SIZE + TITLE_CELLS_AMOUNT_HEIGHT * Cell.CELL_SIZE;
+        return boardPanel.getBoard().getHeight() * Cell.CELL_SIZE + TITLE_CELLS_AMOUNT_HEIGHT * Cell.CELL_SIZE;
     }
 
     @Override
-    protected void printComponent(Graphics g) {
-        super.printComponent(g);
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
-        g.drawImage(Images.PLAYER_ALIVE, 0, 0, null);
+        Graphics2D g2d = (Graphics2D) g;
 
-        repaint();
-    }
+        if (boardPanel.getBoard().isDead()) {
+            player.setDead(true);
+            boardPanel.getBoard().revealAllMines();
+        }
 
-    public Board getBoard() {
-        return board;
-    }
+        Image playerIcon = player.getIcon();
 
-    public void setBoard(Board board) {
-        this.board = board;
+        g2d.drawImage(playerIcon, getWidth() - playerIcon.getWidth(null) - Cell.CELL_SIZE, 10, null);
+
+        g2d.setStroke(new BasicStroke(20));
+        g2d.setColor(new Color(154, 154, 154));
+
+        g2d.drawRect(Cell.CELL_SIZE * (TITLE_CELLS_AMOUNT_WIDTH - 1),
+                Cell.CELL_SIZE * (TITLE_CELLS_AMOUNT_HEIGHT - 1),
+                width() - Cell.CELL_SIZE * TITLE_CELLS_AMOUNT_WIDTH, height() - Cell.CELL_SIZE * TITLE_CELLS_AMOUNT_HEIGHT);
     }
 }
