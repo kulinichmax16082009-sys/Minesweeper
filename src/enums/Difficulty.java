@@ -1,9 +1,11 @@
 package enums;
 
+import utils.constants.BoardDifficulties;
+
 public enum Difficulty {
-    EASY("resources/boardDifficulties/easy.json"),
-    MEDIUM("resources/boardDifficulties/medium.json"),
-    HARD("resources/boardDifficulties/hard.json");
+    EASY(BoardDifficulties.EASY),
+    MEDIUM(BoardDifficulties.MEDIUM),
+    HARD(BoardDifficulties.HARD);
 
     private final String boardPath;
 

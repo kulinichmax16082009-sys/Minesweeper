@@ -25,9 +25,9 @@ public class Board {
         this.rnd = new RandomGen();
         //
         this.cells = new Cell[1][1];
-        this.numberOfMines = 0;
-        this.width = 1;
-        this.height = 1;
+        this.numberOfMines = 10;
+        this.width = 10;
+        this.height = 8;
 
         this.difficulty = difficulty;
 
@@ -41,26 +41,25 @@ public class Board {
         calculateCellsValue();
     }
 
+    public void generateEmptyBoard() {
+        initializeBoard(difficulty.getBoardPath());
+        normalizeBoard();
+    }
+
     private void initializeBoard(String jsonFilePath) {
         ObjectMapper mapper = new ObjectMapper();
 
         try (InputStream input = new FileInputStream(jsonFilePath)) {
             mapper.readerForUpdating(this).readValue(input);
         } catch (Exception e) {
-            BasicWindow.showErrorMessage("Error while loading board from .json");
-            this.cells = new Cell[1][1];
-            this.numberOfMines = 0;
-            this.width = 1;
-            this.height = 1;
+            BasicWindow.showErrorMessage("Error while loading board from .json file");
         }
 
         normalizeBoard();
     }
 
     private void placeMines() {
-        int minesAmount = numberOfMines;
-
-        while (minesAmount > 0) {
+        while (numberOfMines > 0) {
 
             int x = rnd.randomNumber(0, width - 1);
             int y = rnd.randomNumber(0, height - 1);
@@ -69,7 +68,7 @@ public class Board {
 
             cells[y][x] = new Cell(CellTypes.MINE, new Value(0), false);
 
-            minesAmount--;
+            numberOfMines--;
         }
     }
 
@@ -152,7 +151,6 @@ public class Board {
                 if (cells[i][j].getValue().getNumber() == -1) {
                     cells[i][j].setType(CellTypes.MINE);
                     cells[i][j].reveal();
-                    numberOfMines = 0;
                 }
             }
         }
@@ -173,27 +171,15 @@ public class Board {
     public boolean isWin() {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                if (cells[i][j].getType() == CellTypes.MINE) return false;
+                if (!cells[i][j].isRevealed() || isDead()) return false;
             }
         }
 
         return true;
     }
 
-    public void subtractNumberOfMines() {
-        numberOfMines--;
-    }
-
-    public void addNumberOfMines() {
-        numberOfMines++;
-    }
-
     public Cell[][] getCells() {
         return cells;
-    }
-
-    public void setCells(Cell[][] cells) {
-        this.cells = cells;
     }
 
     public int getWidth() {

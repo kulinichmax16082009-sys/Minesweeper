@@ -4,6 +4,7 @@ import enums.Difficulty;
 import gameObjects.Player;
 import panels.BoardPanel;
 import panels.GamePanel;
+import utils.constants.Images;
 import utils.constants.Sounds;
 import windows.EndWindow;
 import windows.GameWindow;
@@ -25,18 +26,20 @@ public class Game {
         SoundPlayer.load(Sounds.NUMBER);
         SoundPlayer.load(Sounds.MINE);
         SoundPlayer.load(Sounds.FLAG);
+        SoundPlayer.load(Sounds.WON);
 
         introducingWindow = new IntroducingWindow();
     }
 
     public static void play() {
         Difficulty difficulty = introducingWindow.getDifficultyPanel().getSelectedDifficulty();
-        player = new Player();
 
         board = new Board(difficulty);
-        board.generateBoard(0, 0);
+        board.generateEmptyBoard();
 
-        BoardPanel boardPanel = new BoardPanel(board);
+        player = new Player(board.getNumberOfMines());
+
+        BoardPanel boardPanel = new BoardPanel(board, player);
         gamePanel = new GamePanel(boardPanel, player);
         gameWindow = new GameWindow(gamePanel);
     }
@@ -44,15 +47,7 @@ public class Game {
     public static void startTimer() {
         timer = new Timer(1000, e -> {
             player.tickTime();
-            gamePanel.updateTimeLabel(player.getTime());
-
-            if (player.isDead()) {
-                stopTimer();
-            }
-
-            if (board.isWin()) {
-                stopTimer();
-            }
+            gamePanel.updateTimeLabel();
 //            gameData.update(player, boardManager);
             gameOver();
         });
@@ -65,6 +60,14 @@ public class Game {
     }
 
     private static void gameOver() {
+        if (player.isDead()) {
+            stopTimer();
+        }
 
+        if (board.isWin()) {
+            SoundPlayer.play(Sounds.WON, false);
+            player.setIcon(Images.PLAYER_WON);
+            stopTimer();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package panels;
 
 import gameObjects.Cell;
+import gameObjects.Player;
 import utils.Board;
 import utils.MyMouseAdapter;
 
@@ -10,11 +11,11 @@ import java.awt.*;
 public class BoardPanel extends JPanel {
     private final Board board;
 
-    public BoardPanel(Board board) {
+    public BoardPanel(Board board, Player player) {
         this.board = board;
 
         setBounds(Cell.CELL_SIZE * (GamePanel.TITLE_CELLS_AMOUNT_WIDTH - 1), Cell.CELL_SIZE * (GamePanel.TITLE_CELLS_AMOUNT_HEIGHT - 1), width(), height());
-        addMouseListener(new MyMouseAdapter(board, this));
+        addMouseListener(new MyMouseAdapter(board, this, player));
         setLayout(null);
         setPreferredSize(new Dimension(width(), height()));
     }
@@ -30,6 +31,10 @@ public class BoardPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        if (board.isDead()) {
+            board.revealAllMines();
+        }
 
         for (int i = 0; i < board.getCells().length; i++) {
             for (int j = 0; j < board.getCells()[i].length; j++) {

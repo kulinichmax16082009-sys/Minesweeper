@@ -6,14 +6,14 @@ import java.awt.*;
 public class Player {
     private boolean isDead;
     private Image icon;
-    private int score;
+    private int flagsLeft;
     private long time;
 
-    public Player() {
+    public Player(int flagsLeft) {
         isDead = false;
         setPlayerIcon();
         time = 0;
-        score = 0;
+        this.flagsLeft = flagsLeft;
     }
 
     public void setPlayerIcon() {
@@ -21,8 +21,12 @@ public class Player {
         else icon = Images.PLAYER_ALIVE;
     }
 
-    public void addScore(int amount) {
-        score += amount;
+    public void subtractFlagsLeft() {
+        flagsLeft--;
+    }
+
+    public void addFlagsLeft() {
+        flagsLeft++;
     }
 
     public void tickTime() {
@@ -46,19 +50,11 @@ public class Player {
         this.icon = icon;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
+    public int getFlagsLeft() {
+        return flagsLeft;
     }
 
     public long getTime() {
         return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
     }
 }

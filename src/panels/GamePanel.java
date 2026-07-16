@@ -56,17 +56,17 @@ public class GamePanel extends JPanel {
         flagsLabel = SimpleLabel.createTitleLabel(Cell.CELL_SIZE, Cell.CELL_SIZE - Cell.CELL_SIZE / 2,
                 TIME_WIDTH, TIME_HEIGHT,
                 new Color(0,0,0), new Color(191, 191, 191),
-                "Flags left: " + boardPanel.getBoard().getNumberOfMines(), new Font("Arial", Font.BOLD, TIME_FONT_SIZE));
+                "Flags left: " + player.getFlagsLeft(), new Font("Arial", Font.BOLD, TIME_FONT_SIZE));
 
         flagsLabel.setBorder(BorderFactory.createLineBorder(new Color(154, 154, 154), 3));
 
         add(flagsLabel);
     }
 
-    public void updateTimeLabel(long time) {
-        if (time >= 60) {
+    public void updateTimeLabel() {
+        if (player.getTime() >= 60) {
             long minutes = 0;
-            long seconds = time;
+            long seconds = player.getTime();
 
             while (seconds >= 60) {
                 seconds -= 60;
@@ -75,12 +75,12 @@ public class GamePanel extends JPanel {
             timeLabel.setText("Time: " + minutes + " min " + seconds + " s");
 
         } else {
-            timeLabel.setText("Time: " + time + " s");
+            timeLabel.setText("Time: " + player.getTime() + " s");
         }
     }
 
     public void updateFlagsLabel() {
-        flagsLabel.setText("Flags left: " + boardPanel.getBoard().getNumberOfMines());
+        flagsLabel.setText("Flags left: " + player.getFlagsLeft());
     }
 
     public int width() {
@@ -99,7 +99,6 @@ public class GamePanel extends JPanel {
 
         if (boardPanel.getBoard().isDead()) {
             player.setDead(true);
-            boardPanel.getBoard().revealAllMines();
         }
 
         Image playerIcon = player.getIcon();
