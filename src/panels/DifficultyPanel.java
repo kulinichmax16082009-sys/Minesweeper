@@ -73,6 +73,16 @@ public class DifficultyPanel extends JPanel {
         add(titleLabel);
     }
 
+    private void setButtonsLocation() {
+        for (int i = 0; i < buttons.size(); i++) {
+            buttons.get(i).setLocation(WIDTH / 2 - BUTTON_WIDTH / 2,  2 * TITLE_HEIGHT + i * BUTTON_GAP);
+        }
+    }
+
+    private void addButtonsToPanel() {
+        for (SimpleButton button : buttons) add(button);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -88,16 +98,6 @@ public class DifficultyPanel extends JPanel {
 
         g2d.setStroke(new BasicStroke(1));
         g2d.setColor(new Color(0,0,0));
-    }
-
-    private void setButtonsLocation() {
-        for (int i = 0; i < buttons.size(); i++) {
-            buttons.get(i).setLocation(WIDTH / 2 - BUTTON_WIDTH / 2,  2 * TITLE_HEIGHT + i * BUTTON_GAP);
-        }
-    }
-
-    private void addButtonsToPanel() {
-        for (SimpleButton button : buttons) add(button);
     }
 
     public Difficulty getSelectedDifficulty() {

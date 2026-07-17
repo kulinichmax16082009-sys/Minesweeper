@@ -10,6 +10,7 @@ import java.awt.*;
 
 public class BoardPanel extends JPanel {
     private final Board board;
+    private boolean isPaused;
 
     public BoardPanel(Board board, Player player) {
         this.board = board;
@@ -41,6 +42,19 @@ public class BoardPanel extends JPanel {
                 board.getCells()[i][j].paint(g,j * Cell.CELL_SIZE, i * Cell.CELL_SIZE);
             }
         }
+
+        if (isPaused) {
+            g.setColor(new Color(0, 0, 0, 150));
+            g.fillRect(0, 0, width(), height());
+        }
+    }
+
+    public void setPaused(JPanel newPanel, boolean isPaused) {
+        this.isPaused = isPaused;
+
+        newPanel.setVisible(isPaused);
+
+        repaint();
     }
 
     public Board getBoard() {

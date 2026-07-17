@@ -28,7 +28,7 @@ public class MyMouseAdapter extends MouseAdapter {
         int x = (e.getX()) / Cell.CELL_SIZE;
         int y = (e.getY()) / Cell.CELL_SIZE;
 
-        if (player.isDead() || (board.isWin() && !firstReveal)) return;
+        if (board.isDead() || (board.isWin() && !firstReveal)) return;
 
         if (x < 0 || x >= board.getWidth() || y < 0 || y >= board.getHeight()) return;
 

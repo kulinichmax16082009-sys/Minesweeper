@@ -8,9 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class IntroducingWindow extends BasicWindow {
-    private IntroducingPanel introducingPanel;
     private DifficultyPanel difficultyPanel;
-    private SettingsPanel settingsPanel;
 
     public IntroducingWindow() {
         super("Minesweeper - Main Menu");
@@ -27,9 +25,9 @@ public class IntroducingWindow extends BasicWindow {
     }
 
     private void initPanels() {
-        settingsPanel = new SettingsPanel(null);
+        SettingsPanel settingsPanel = new SettingsPanel(null);
         difficultyPanel = new DifficultyPanel(null);
-        introducingPanel = new IntroducingPanel(difficultyPanel, settingsPanel);
+        IntroducingPanel introducingPanel = new IntroducingPanel(difficultyPanel, settingsPanel);
 
         difficultyPanel.setIntroducingPanel(introducingPanel);
         settingsPanel.setIntroducingPanel(introducingPanel);

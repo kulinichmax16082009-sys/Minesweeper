@@ -68,7 +68,7 @@ public class IntroducingPanel extends JPanel {
             frame.dispose();
         }));
 
-        buttons.add(createButton("Score", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
+        buttons.add(createButton("Stats", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
             // Handle
             System.out.println("Score button clicked");
         }));

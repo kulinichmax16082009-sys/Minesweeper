@@ -33,9 +33,6 @@ public class GamePanel extends JPanel {
 
         timer.start();
 
-        add(boardPanel);
-        setComponentZOrder(boardPanel, 0);
-
         setLayout(null);
         setPreferredSize(new Dimension(width(), height()));
         setBackground(new Color(191, 191, 191));
@@ -97,9 +94,7 @@ public class GamePanel extends JPanel {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        if (boardPanel.getBoard().isDead()) {
-            player.setDead(true);
-        }
+        player.setPlayerIcon(boardPanel.getBoard().isDead(), boardPanel.getBoard().isWin());
 
         Image playerIcon = player.getIcon();
 

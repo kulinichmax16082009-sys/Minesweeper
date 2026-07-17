@@ -4,19 +4,21 @@ import utils.constants.Images;
 import java.awt.*;
 
 public class Player {
-    private boolean isDead;
     private Image icon;
     private int flagsLeft;
     private long time;
 
     public Player(int flagsLeft) {
-        isDead = false;
-        setPlayerIcon();
         time = 0;
         this.flagsLeft = flagsLeft;
     }
 
-    public void setPlayerIcon() {
+    public void setPlayerIcon(boolean isDead, boolean isWon) {
+        if (isWon && !isDead) {
+            icon = Images.PLAYER_WON;
+            return;
+        }
+
         if (isDead) icon = Images.PLAYER_DEAD;
         else icon = Images.PLAYER_ALIVE;
     }
@@ -31,15 +33,6 @@ public class Player {
 
     public void tickTime() {
         time++;
-    }
-
-    public boolean isDead() {
-        return isDead;
-    }
-
-    public void setDead(boolean dead) {
-        isDead = dead;
-        setPlayerIcon();
     }
 
     public Image getIcon() {
