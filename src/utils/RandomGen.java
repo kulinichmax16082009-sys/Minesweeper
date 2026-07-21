@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.Random;
 
 public class RandomGen implements Serializable {
-
     private final Random rnd = new Random();
 
     public boolean generateProbability(float percent) {

@@ -56,7 +56,7 @@ public class IntroducingPanel extends JPanel {
         addButtonsToPanel();
         initTitleLabel();
 
-        startAnimation();
+        startAnimation(500);
         SoundPlayer.play(Sounds.MAIN_MENU, true);
     }
 
@@ -126,9 +126,9 @@ public class IntroducingPanel extends JPanel {
         }
     }
 
-    public void startAnimation() {
+    public void startAnimation(int speed) {
         if (timer == null) {
-            timer = new Timer(1000, e -> repaint());
+            timer = new Timer(speed, e -> repaint());
             timer.start();
         }
     }

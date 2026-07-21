@@ -29,23 +29,30 @@ public class MyMouseAdapter extends MouseAdapter {
         int y = (e.getY()) / Cell.CELL_SIZE;
 
         if (board.isDead() || (board.isWin() && !firstReveal)) return;
-
         if (x < 0 || x >= board.getWidth() || y < 0 || y >= board.getHeight()) return;
 
+        revealAction(e,x,y);
+        flagAction(e,x,y);
+
+        boardPanel.repaint();
+    }
+
+    private void revealAction(MouseEvent e, int x, int y) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (firstReveal) {
                 Game.startTimer();
                 board.generateBoard(x, y);
                 firstReveal = false;
             }
-
             if (!board.getCells()[y][x].isRevealed()) {
                 board.getCells()[y][x].reveal();
                 board.openZerosNear(x, y);
                 SoundPlayer.play(board.getCells()[y][x].getSound(), false);
             }
         }
+    }
 
+    private void flagAction(MouseEvent e, int x, int y) {
         if (e.getButton() == MouseEvent.BUTTON3) {
             if (!board.getCells()[y][x].isRevealed() && player.getFlagsLeft() > 0) {
                 board.getCells()[y][x].setType(CellTypes.FLAG);
@@ -55,15 +62,11 @@ public class MyMouseAdapter extends MouseAdapter {
             } else if (board.getCells()[y][x].getType() == CellTypes.FLAG) {
                 if (board.getCells()[y][x].getValue().getNumber() == -1) {
                     board.getCells()[y][x].setType(CellTypes.MINE);
-                } else {
-                    board.getCells()[y][x].setType(CellTypes.NUMBER);
-                }
+                } else board.getCells()[y][x].setType(CellTypes.NUMBER);
                 SoundPlayer.play(Sounds.FLAG, false);
                 player.addFlagsLeft();
                 board.getCells()[y][x].hide();
             }
         }
-
-        boardPanel.repaint();
     }
 }

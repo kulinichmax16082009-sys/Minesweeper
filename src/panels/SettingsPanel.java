@@ -30,6 +30,8 @@ public class SettingsPanel extends JPanel {
 
     private IntroducingPanel introducingPanel;
     private ArrayList<SimpleCheckBox> checkBoxes;
+    private JSlider volume;
+    private JSlider animationSpeed;
 
     public SettingsPanel(IntroducingPanel introducingPanel) {
         this.introducingPanel = introducingPanel;
@@ -45,7 +47,34 @@ public class SettingsPanel extends JPanel {
         setCheckBoxesLocation();
         addCheckBoxesToPanel();
 
+        initAnimationSpeedSlider();
+        initVolumeSlider();
+
         initTitleLabel();
+    }
+
+    private void initAnimationSpeedSlider() {
+        animationSpeed = new JSlider(0, 1000, 500);
+        animationSpeed.setMajorTickSpacing(100);
+        animationSpeed.setSize(200, 20);
+        animationSpeed.setLocation(WIDTH / 2 - CHECK_BOX_WIDTH / 2, checkBoxes.get(checkBoxes.size() - 1).getY() + CHECK_BOX_GAP);
+        animationSpeed.addChangeListener(e -> {
+            introducingPanel.stopAnimation();
+            introducingPanel.startAnimation(animationSpeed.getMaximum() - animationSpeed.getValue());
+            if (animationSpeed.getValue() == 0) {
+                introducingPanel.stopAnimation();
+            }
+        });
+        add(animationSpeed);
+    }
+
+    private void initVolumeSlider() {
+        volume = new JSlider(0, 100, 50);
+        volume.setMajorTickSpacing(1);
+        volume.setSize(200, 20);
+        volume.addChangeListener(e -> {
+        });
+        add(volume);
     }
 
     private void initTitleLabel() {
@@ -58,13 +87,8 @@ public class SettingsPanel extends JPanel {
     private void initCheckBoxes() {
         checkBoxes = new ArrayList<>();
 
-        checkBoxes.add(SimpleCheckBox.createCheckBox("Play Background Animation", CHECK_BOX_WIDTH, CHECK_BOX_HEIGHT, true, e -> {
-            if (((SimpleCheckBox) e.getSource()).isSelected()) introducingPanel.startAnimation();
-            else introducingPanel.stopAnimation();
-        }));
-
         checkBoxes.add(SimpleCheckBox.createCheckBox("Play Menu Music", CHECK_BOX_WIDTH, CHECK_BOX_HEIGHT, true, e -> {
-            if (((SimpleCheckBox) e.getSource()).isSelected()) SoundPlayer.unpause(Sounds.MAIN_MENU);
+            if (((SimpleCheckBox) e.getSource()).isSelected()) SoundPlayer.unpause(Sounds.MAIN_MENU, true);
             else SoundPlayer.pause(Sounds.MAIN_MENU);
         }));
 

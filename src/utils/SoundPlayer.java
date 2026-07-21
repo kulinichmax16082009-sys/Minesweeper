@@ -29,7 +29,6 @@ public class SoundPlayer {
 
     public static void play(String name, boolean loop) {
         if (playSound) {
-
             Clip clip = sounds.get(name);
 
             if (clip == null) return;
@@ -46,9 +45,13 @@ public class SoundPlayer {
         }
     }
 
-    public static void unpause(String path) {
+    public static void unpause(String path, boolean loop) {
         if (sounds.get(path) != null) {
-            sounds.get(path).start();
+            if (loop) {
+                sounds.get(path).loop(Clip.LOOP_CONTINUOUSLY);
+            } else {
+                sounds.get(path).start();
+            }
         }
     }
 

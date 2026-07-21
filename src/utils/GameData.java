@@ -27,7 +27,7 @@ public class GameData implements Serializable {
         boards = new ArrayList<>();
     }
 
-    public void saveGame() {
+    public void saveData() {
         try {
             FileOutputStream fos = new FileOutputStream(LOAD_SAVE_PATH);
             ObjectOutputStream oos = new ObjectOutputStream(fos);

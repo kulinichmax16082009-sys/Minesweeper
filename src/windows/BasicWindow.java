@@ -17,10 +17,6 @@ public abstract class BasicWindow {
         frame.setIconImage(new ImageIcon(getImagePath()).getImage());
     }
 
-    public void close() {
-        frame.dispose();
-    }
-
     public static void showErrorMessage(String message) {
         JOptionPane.showMessageDialog(null, message, "Minesweeper - Error", JOptionPane.ERROR_MESSAGE);
     }

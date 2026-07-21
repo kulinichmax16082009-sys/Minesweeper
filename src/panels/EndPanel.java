@@ -86,7 +86,7 @@ public class EndPanel extends JPanel {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER && !textField.getText().isEmpty()) {
                     gameData.addAll(player, textField.getText(), boardPanel.getBoard());
-                    gameData.saveGame();
+                    gameData.saveData();
                     textField.setText("");
                     submit.setEnabled(false);
                     textField.setEnabled(false);
@@ -101,7 +101,7 @@ public class EndPanel extends JPanel {
         submit = SimpleButton.createButton("Submit", SUBMIT_BUTTON_WIDTH, SUBMIT_BUTTON_HEIGHT, e -> {
             if (textField.getText().isEmpty()) return;
             gameData.addAll(player, textField.getText(), boardPanel.getBoard());
-            gameData.saveGame();
+            gameData.saveData();
             textField.setText("");
             submit.setEnabled(false);
             textField.setEnabled(false);

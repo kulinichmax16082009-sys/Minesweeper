@@ -66,19 +66,15 @@ public class StatsPanel extends JPanel {
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                int row = table.rowAtPoint(e.getPoint());
+                if (row == -1) return;
+
                 if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
-                    int row = table.rowAtPoint(e.getPoint());
-                    if (row != -1) model.removeRow(row);
-
                     gameData.removeAllAtIndex(row);
-                    gameData.saveGame();
+                    gameData.saveData();
                 }
-
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    int row = table.rowAtPoint(e.getPoint());
-                    if (row != -1) {
-                        BoardWindow boardWindow = new BoardWindow(gameData.getBoards().get(row));
-                    }
+                    BoardWindow boardWindow = new BoardWindow(gameData.getBoards().get(row));
                 }
             }
         });
