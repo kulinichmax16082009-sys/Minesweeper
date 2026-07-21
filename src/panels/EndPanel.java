@@ -10,6 +10,8 @@ import utils.simpleUI.SimpleLabel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import static utils.simpleUI.SimpleButton.createButton;
@@ -47,7 +49,7 @@ public class EndPanel extends JPanel {
         setButtonsDesign();
         addButtonsToPanel();
 
-        initTextField();
+        initTextField(gameData, player);
         initSubmitButton(gameData, player);
 
         setBounds((boardPanel.width() - width()) / 2, (boardPanel.height() - height()) / 2, width(), height());
@@ -70,7 +72,7 @@ public class EndPanel extends JPanel {
         add(titleLabel);
     }
 
-    private void initTextField() {
+    private void initTextField(GameData gameData, Player player) {
         textField = new JTextField("Enter the title");
         textField.setLocation(0,0);
         textField.setSize(TEXT_FIELD_WIDTH,TEXT_FIELD_HEIGH);
@@ -79,13 +81,27 @@ public class EndPanel extends JPanel {
 
         textField.setVisible(false);
 
+        textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER && !textField.getText().isEmpty()) {
+                    gameData.addAll(player, textField.getText(), boardPanel.getBoard());
+                    gameData.saveGame();
+                    textField.setText("");
+                    submit.setEnabled(false);
+                    textField.setEnabled(false);
+                }
+            }
+        });
+
         add(textField);
     }
 
     private void initSubmitButton(GameData gameData, Player player) {
         submit = SimpleButton.createButton("Submit", SUBMIT_BUTTON_WIDTH, SUBMIT_BUTTON_HEIGHT, e -> {
             if (textField.getText().isEmpty()) return;
-            gameData.saveGame(player, textField.getText());
+            gameData.addAll(player, textField.getText(), boardPanel.getBoard());
+            gameData.saveGame();
             textField.setText("");
             submit.setEnabled(false);
             textField.setEnabled(false);

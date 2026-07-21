@@ -1,6 +1,8 @@
 package utils;
 
-public class MyColor {
+import java.io.Serializable;
+
+public class MyColor implements Serializable {
     private int r;
     private int g;
     private int b;

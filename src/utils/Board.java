@@ -9,8 +9,9 @@ import windows.BasicWindow;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 
-public class Board {
+public class Board implements Serializable {
     private Cell[][] cells;
     private final RandomGen rnd;
     private int numberOfMines;
@@ -152,6 +153,14 @@ public class Board {
                     cells[i][j].setType(CellTypes.MINE);
                     cells[i][j].reveal();
                 }
+            }
+        }
+    }
+
+    public void revealAll() {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                cells[i][j].reveal();
             }
         }
     }

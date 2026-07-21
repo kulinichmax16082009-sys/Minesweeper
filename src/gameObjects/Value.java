@@ -7,9 +7,10 @@ import windows.BasicWindow;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Value {
+public class Value implements Serializable {
     private int number;
     private Color color;
     private ArrayList<MyColor> possibleColors;

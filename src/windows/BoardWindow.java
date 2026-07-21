@@ -1,0 +1,33 @@
+package windows;
+
+import panels.BoardPanel;
+import utils.Board;
+
+import javax.swing.*;
+import java.awt.event.MouseListener;
+
+public class BoardWindow extends BasicWindow {
+
+    public BoardWindow(Board board) {
+        super("Minesweeper - Board");
+
+        board.revealAll();
+
+        BoardPanel boardPanel = new BoardPanel(board, null);
+
+        for (MouseListener listener : boardPanel.getMouseListeners()) {
+            boardPanel.removeMouseListener(listener);
+        }
+
+        frame.add(boardPanel);
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    @Override
+    public String getImagePath() {
+        return "";
+    }
+}

@@ -14,6 +14,7 @@ public class Game {
     private static Player player;
     private static Board board;
     private static GameWindow gameWindow;
+    private static GameData gameData;
 
     public static void start() {
         SoundPlayer.load(Sounds.MAIN_MENU);
@@ -22,12 +23,15 @@ public class Game {
         SoundPlayer.load(Sounds.FLAG);
         SoundPlayer.load(Sounds.WON);
 
+        gameData = GameData.loadData();
+
+        if (gameData == null) gameData = new GameData();
+
         introducingWindow = new IntroducingWindow();
     }
 
     public static void play() {
         Difficulty difficulty = introducingWindow.getDifficultyPanel().getSelectedDifficulty();
-        GameData gameData = new GameData();
 
         board = new Board(difficulty);
         board.generateEmptyBoard();

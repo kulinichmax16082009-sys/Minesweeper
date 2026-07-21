@@ -34,16 +34,18 @@ public class IntroducingPanel extends JPanel {
 
     private final RandomGen rnd;
     private ArrayList<SimpleButton> buttons;
-    private DifficultyPanel difficultyPanel;
-    private SettingsPanel settingsPanel;
+    private final DifficultyPanel difficultyPanel;
+    private final SettingsPanel settingsPanel;
+    private final StatsPanel statsPanel;
     private SimpleLabel titleLabel;
     private Timer timer;
     private boolean isPaused;
 
-    public IntroducingPanel(DifficultyPanel difficultyPanel, SettingsPanel settingsPanel) {
+    public IntroducingPanel(DifficultyPanel difficultyPanel, SettingsPanel settingsPanel, StatsPanel statsPanel) {
         this.rnd = new RandomGen();
         this.difficultyPanel = difficultyPanel;
         this.settingsPanel = settingsPanel;
+        this.statsPanel = statsPanel;
 
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setLayout(null);
@@ -67,16 +69,9 @@ public class IntroducingPanel extends JPanel {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
             frame.dispose();
         }));
-
-        buttons.add(createButton("Stats", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
-            // Handle
-            System.out.println("Score button clicked");
-        }));
-
+        buttons.add(createButton("Stats", BUTTON_WIDTH, BUTTON_HEIGHT, e -> setPaused(statsPanel, true)));
         buttons.add(createButton("Settings",BUTTON_WIDTH, BUTTON_HEIGHT, e -> setPaused(settingsPanel, true)));
-
         buttons.add(createButton("Difficulty",BUTTON_WIDTH, BUTTON_HEIGHT, e -> setPaused(difficultyPanel, true)));
-
         buttons.add(createButton("Quit",BUTTON_WIDTH, BUTTON_HEIGHT ,e -> System.exit(0)));
     }
 
@@ -133,7 +128,7 @@ public class IntroducingPanel extends JPanel {
 
     public void startAnimation() {
         if (timer == null) {
-            timer = new Timer(200, e -> repaint());
+            timer = new Timer(1000, e -> repaint());
             timer.start();
         }
     }
@@ -143,21 +138,5 @@ public class IntroducingPanel extends JPanel {
             timer.stop();
             timer = null;
         }
-    }
-
-    public DifficultyPanel getDifficultyPanel() {
-        return difficultyPanel;
-    }
-
-    public void setDifficultyPanel(DifficultyPanel difficultyPanel) {
-        this.difficultyPanel = difficultyPanel;
-    }
-
-    public SettingsPanel getSettingsPanel() {
-        return settingsPanel;
-    }
-
-    public void setSettingsPanel(SettingsPanel settingsPanel) {
-        this.settingsPanel = settingsPanel;
     }
 }

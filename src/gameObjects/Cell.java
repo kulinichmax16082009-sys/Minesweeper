@@ -3,12 +3,13 @@ import enums.CellTypes;
 import utils.constants.Images;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Cell {
+public class Cell implements Serializable {
     private Value value;
     private boolean isRevealed;
     private CellTypes type;
-    private Image icon;
+    private transient Image icon;
     private String sound;
 
     public static final int CELL_SIZE = 32;

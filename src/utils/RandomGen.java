@@ -4,9 +4,10 @@ import enums.CellTypes;
 import gameObjects.Cell;
 import gameObjects.Value;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class RandomGen {
+public class RandomGen implements Serializable {
 
     private final Random rnd = new Random();
 
