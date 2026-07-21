@@ -5,26 +5,25 @@ import panels.BoardPanel;
 import panels.EndPanel;
 import panels.GamePanel;
 import utils.Board;
-import utils.GameData;
 
 public class GameWindow extends BasicWindow {
     private GamePanel gamePanel;
     private BoardPanel boardPanel;
     private EndPanel endPanel;
 
-    public GameWindow(GameData gameData, Player player, Board board) {
+    public GameWindow(Player player, Board board) {
         super("Minesweeper - Game");
 
-        initPanels(board, player, gameData);
+        initPanels(board, player);
 
         frame.pack();
         frame.setLocationRelativeTo(null);
     }
 
-    private void initPanels(Board board, Player player, GameData gameData) {
+    private void initPanels(Board board, Player player) {
         boardPanel = new BoardPanel(board, player);
         gamePanel = new GamePanel(boardPanel, player);
-        endPanel = new EndPanel(boardPanel, gameData, player);
+        endPanel = new EndPanel(boardPanel, player);
 
         frame.add(gamePanel);
         gamePanel.add(boardPanel);
@@ -36,30 +35,18 @@ public class GameWindow extends BasicWindow {
 
     @Override
     public String getImagePath() {
-        return "";
+        return "resources/cellTypesIcons/mine.png";
     }
 
     public GamePanel getGamePanel() {
         return gamePanel;
     }
 
-    public void setGamePanel(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-    }
-
     public BoardPanel getBoardPanel() {
         return boardPanel;
     }
 
-    public void setBoardPanel(BoardPanel boardPanel) {
-        this.boardPanel = boardPanel;
-    }
-
     public EndPanel getEndPanel() {
         return endPanel;
-    }
-
-    public void setEndPanel(EndPanel endPanel) {
-        this.endPanel = endPanel;
     }
 }

@@ -14,7 +14,6 @@ public class Game {
     private static Player player;
     private static Board board;
     private static GameWindow gameWindow;
-    private static GameData gameData;
 
     public static void start() {
         SoundPlayer.load(Sounds.MAIN_MENU);
@@ -22,10 +21,6 @@ public class Game {
         SoundPlayer.load(Sounds.MINE);
         SoundPlayer.load(Sounds.FLAG);
         SoundPlayer.load(Sounds.WON);
-
-        gameData = GameData.loadData();
-
-        if (gameData == null) gameData = new GameData();
 
         introducingWindow = new IntroducingWindow();
     }
@@ -38,7 +33,7 @@ public class Game {
 
         player = new Player(board.getNumberOfMines());
 
-        gameWindow = new GameWindow(gameData, player, board);
+        gameWindow = new GameWindow(player, board);
     }
 
     public static void startTimer() {

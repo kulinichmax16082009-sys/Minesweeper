@@ -22,7 +22,7 @@ public class IntroducingWindow extends BasicWindow {
 
     @Override
     public String getImagePath() {
-        return "";
+        return "resources/cellTypesIcons/flag.png";
     }
 
     private void initPanels() {

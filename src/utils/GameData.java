@@ -11,12 +11,12 @@ import java.util.ArrayList;
 public class GameData implements Serializable {
     private static final String LOAD_SAVE_PATH = "resources/saves.dat";
 
-    private final ArrayList<String> titles;
-    private final ArrayList<Integer> flagsLeft;
-    private final ArrayList<Long> playerTimes;
-    private final ArrayList<LocalDate> dates;
-    private final ArrayList<LocalTime> times;
-    private final ArrayList<Board> boards;
+    private ArrayList<String> titles;
+    private ArrayList<Integer> flagsLeft;
+    private ArrayList<Long> playerTimes;
+    private ArrayList<LocalDate> dates;
+    private ArrayList<LocalTime> times;
+    private ArrayList<Board> boards;
 
     public GameData() {
         flagsLeft = new ArrayList<>();
@@ -54,7 +54,7 @@ public class GameData implements Serializable {
 
             return gameData;
         } catch (Exception e) {
-            return null;
+            return new GameData();
         }
     }
 
@@ -68,7 +68,7 @@ public class GameData implements Serializable {
     }
 
     public void removeAllAtIndex(int index) {
-        if (index < 0 || index > times.size()) return;
+        if (index < 0 || index >= times.size()) return;
 
         flagsLeft.remove(index);
         playerTimes.remove(index);

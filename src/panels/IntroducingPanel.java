@@ -24,13 +24,14 @@ public class IntroducingPanel extends JPanel {
     public static final int BUTTON_WIDTH = 200;
     public static final int BUTTON_HEIGHT = 50;
     private final float BUTTON_DISTANCE_FACTOR = 1.5f;
-    private final int BUTTON_X = 40;
     public static final int BUTTON_FONT_SIZE = 20;
     private final int BUTTON_GAP = (int) (BUTTON_HEIGHT * BUTTON_DISTANCE_FACTOR);
 
     private final int TITLE_WIDTH = 200;
     private final int TITLE_HEIGHT = 50;
     private final int TITLE_FONT_SIZE = 30;
+
+    private static int animationSpeed = 500;
 
     private final RandomGen rnd;
     private ArrayList<SimpleButton> buttons;
@@ -56,7 +57,7 @@ public class IntroducingPanel extends JPanel {
         addButtonsToPanel();
         initTitleLabel();
 
-        startAnimation(500);
+        startAnimation();
         SoundPlayer.play(Sounds.MAIN_MENU, true);
     }
 
@@ -101,7 +102,7 @@ public class IntroducingPanel extends JPanel {
 
     private void setButtonsLocation() {
         for (int i = 0; i < buttons.size(); i++) {
-            buttons.get(i).setLocation(BUTTON_X, (int) (TITLE_HEIGHT * 0.75 + i * BUTTON_GAP));
+            buttons.get(i).setLocation(40, (int) (TITLE_HEIGHT * 0.75 + i * BUTTON_GAP));
         }
     }
 
@@ -126,9 +127,9 @@ public class IntroducingPanel extends JPanel {
         }
     }
 
-    public void startAnimation(int speed) {
-        if (timer == null) {
-            timer = new Timer(speed, e -> repaint());
+    public void startAnimation() {
+        if (timer == null && animationSpeed != 1000) {
+            timer = new Timer(animationSpeed, e -> repaint());
             timer.start();
         }
     }
@@ -138,5 +139,12 @@ public class IntroducingPanel extends JPanel {
             timer.stop();
             timer = null;
         }
+    }
+    public static int getAnimationSpeed() {
+        return animationSpeed;
+    }
+
+    public static void setAnimationSpeed(int animationSpeed) {
+        IntroducingPanel.animationSpeed = animationSpeed;
     }
 }

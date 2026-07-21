@@ -31,16 +31,13 @@ public class EndPanel extends JPanel {
     private final int TEXT_FIELD_WIDTH = 150;
     private final int TEXT_FIELD_HEIGH = 20;
 
-    private final int SUBMIT_BUTTON_WIDTH = 60;
-    private final int SUBMIT_BUTTON_HEIGHT = 20;
-
     private ArrayList<SimpleButton> buttons;
     private JTextField textField;
     private SimpleButton submit;
     private final BoardPanel boardPanel;
     private boolean isGoodEnd;
 
-    public EndPanel(BoardPanel boardPanel, GameData gameData, Player player) {
+    public EndPanel(BoardPanel boardPanel, Player player) {
         this.boardPanel = boardPanel;
         this.isGoodEnd = true;
 
@@ -49,8 +46,8 @@ public class EndPanel extends JPanel {
         setButtonsDesign();
         addButtonsToPanel();
 
-        initTextField(gameData, player);
-        initSubmitButton(gameData, player);
+        initTextField(player);
+        initSubmitButton(player);
 
         setBounds((boardPanel.width() - width()) / 2, (boardPanel.height() - height()) / 2, width(), height());
         setLayout(null);
@@ -72,7 +69,7 @@ public class EndPanel extends JPanel {
         add(titleLabel);
     }
 
-    private void initTextField(GameData gameData, Player player) {
+    private void initTextField(Player player) {
         textField = new JTextField("Enter the title");
         textField.setLocation(0,0);
         textField.setSize(TEXT_FIELD_WIDTH,TEXT_FIELD_HEIGH);
@@ -84,7 +81,8 @@ public class EndPanel extends JPanel {
         textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER && !textField.getText().isEmpty()) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER && !textField.getText().isEmpty()) {
+                    GameData gameData = GameData.loadData();
                     gameData.addAll(player, textField.getText(), boardPanel.getBoard());
                     gameData.saveData();
                     textField.setText("");
@@ -97,9 +95,10 @@ public class EndPanel extends JPanel {
         add(textField);
     }
 
-    private void initSubmitButton(GameData gameData, Player player) {
-        submit = SimpleButton.createButton("Submit", SUBMIT_BUTTON_WIDTH, SUBMIT_BUTTON_HEIGHT, e -> {
+    private void initSubmitButton(Player player) {
+        submit = SimpleButton.createButton("Submit", 60, 20, e -> {
             if (textField.getText().isEmpty()) return;
+            GameData gameData = GameData.loadData();
             gameData.addAll(player, textField.getText(), boardPanel.getBoard());
             gameData.saveData();
             textField.setText("");
@@ -176,7 +175,6 @@ public class EndPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setStroke(new BasicStroke(10));

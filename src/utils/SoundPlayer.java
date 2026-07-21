@@ -9,12 +9,11 @@ import java.util.HashMap;
 public class SoundPlayer {
 
     private final static HashMap<String, Clip> sounds = new HashMap<>();
-    private static boolean playSound = true;
+    private static float volumeDb = -30f;
 
     public static void load(String path) {
         try {
-            AudioInputStream audio =
-                    AudioSystem.getAudioInputStream(new File(path));
+            AudioInputStream audio = AudioSystem.getAudioInputStream(new File(path));
 
             Clip clip = AudioSystem.getClip();
             clip.open(audio);
@@ -26,32 +25,29 @@ public class SoundPlayer {
         }
     }
 
-
     public static void play(String name, boolean loop) {
-        if (playSound) {
-            Clip clip = sounds.get(name);
+        Clip clip = sounds.get(name);
 
-            if (clip == null) return;
+        if (clip == null) return;
 
-            clip.stop();
-            clip.setFramePosition(0);
-            clip.setMicrosecondPosition(0);
+        FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        control.setValue(volumeDb);
 
-            if (loop) {
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } else {
-                clip.start();
-            }
-        }
+        clip.stop();
+        clip.setFramePosition(0);
+        clip.setMicrosecondPosition(0);
+
+        if (loop) clip.loop(Clip.LOOP_CONTINUOUSLY);
+        else clip.start();
     }
 
     public static void unpause(String path, boolean loop) {
+        FloatControl control = (FloatControl) sounds.get(path).getControl(FloatControl.Type.MASTER_GAIN);
+        control.setValue(volumeDb);
+
         if (sounds.get(path) != null) {
-            if (loop) {
-                sounds.get(path).loop(Clip.LOOP_CONTINUOUSLY);
-            } else {
-                sounds.get(path).start();
-            }
+            if (loop) sounds.get(path).loop(Clip.LOOP_CONTINUOUSLY);
+            else sounds.get(path).start();
         }
     }
 
@@ -61,7 +57,11 @@ public class SoundPlayer {
         }
     }
 
-    public static void setPlaySound(boolean playSound) {
-        SoundPlayer.playSound = playSound;
+    public static void setVolumeDb(float volumeDb) {
+        SoundPlayer.volumeDb = volumeDb;
+    }
+
+    public static float getVolumeDb() {
+        return volumeDb;
     }
 }

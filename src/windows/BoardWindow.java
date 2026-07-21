@@ -28,6 +28,6 @@ public class BoardWindow extends BasicWindow {
 
     @Override
     public String getImagePath() {
-        return "";
+        return "resources/cellTypesIcons/hidden.png";
     }
 }
