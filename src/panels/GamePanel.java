@@ -10,9 +10,9 @@ public class GamePanel extends JPanel {
     public static final int TITLE_CELLS_AMOUNT_HEIGHT = 4;
     public static final int TITLE_CELLS_AMOUNT_WIDTH = 2;
 
-    private final int TIME_WIDTH = 200;
-    private final int TIME_HEIGHT = 30;
-    private final int TIME_FONT_SIZE = 17;
+    private final int LABEL_WIDTH = 200;
+    private final int LABEL_HEIGHT = 30;
+    private final int LABEL_FONT_SIZE = 17;
 
     private final Player player;
     private SimpleLabel timeLabel;
@@ -40,9 +40,9 @@ public class GamePanel extends JPanel {
 
     private void initTimeLabel() {
         timeLabel = SimpleLabel.createTitleLabel(Cell.CELL_SIZE, Cell.CELL_SIZE + Cell.CELL_SIZE / 2,
-                TIME_WIDTH, TIME_HEIGHT,
+                LABEL_WIDTH, LABEL_HEIGHT,
                 new Color(0,0,0), new Color(191, 191, 191),
-                "Time: 0", new Font("Arial", Font.BOLD, TIME_FONT_SIZE));
+                "Time: 0", new Font("Arial", Font.BOLD, LABEL_FONT_SIZE));
 
         timeLabel.setBorder(BorderFactory.createLineBorder(new Color(154, 154, 154), 3));
 
@@ -51,9 +51,9 @@ public class GamePanel extends JPanel {
 
     private void initFlagsLabel() {
         flagsLabel = SimpleLabel.createTitleLabel(Cell.CELL_SIZE, Cell.CELL_SIZE - Cell.CELL_SIZE / 2,
-                TIME_WIDTH, TIME_HEIGHT,
+                LABEL_WIDTH, LABEL_HEIGHT,
                 new Color(0,0,0), new Color(191, 191, 191),
-                "Flags left: " + player.getFlagsLeft(), new Font("Arial", Font.BOLD, TIME_FONT_SIZE));
+                "Flags left: " + player.getFlagsLeft(), new Font("Arial", Font.BOLD, LABEL_FONT_SIZE));
 
         flagsLabel.setBorder(BorderFactory.createLineBorder(new Color(154, 154, 154), 3));
 

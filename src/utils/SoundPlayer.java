@@ -26,6 +26,10 @@ public class SoundPlayer {
     }
 
     public static void play(String name, boolean loop) {
+        for (Clip clip : sounds.values()) {
+            clip.stop();
+        }
+
         Clip clip = sounds.get(name);
 
         if (clip == null) return;

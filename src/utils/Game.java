@@ -1,6 +1,7 @@
 package utils;
 
 import enums.Difficulty;
+import enums.MainMenuMusic;
 import gameObjects.Player;
 import panels.*;
 import utils.constants.*;
@@ -16,7 +17,9 @@ public class Game {
     private static GameWindow gameWindow;
 
     public static void start() {
-        SoundPlayer.load(Sounds.MAIN_MENU);
+        for (MainMenuMusic music : MainMenuMusic.values()) {
+            SoundPlayer.load(music.getPath());
+        }
         SoundPlayer.load(Sounds.NUMBER);
         SoundPlayer.load(Sounds.MINE);
         SoundPlayer.load(Sounds.FLAG);

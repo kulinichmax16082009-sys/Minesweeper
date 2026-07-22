@@ -5,7 +5,6 @@ import utils.Game;
 import utils.RandomGen;
 import utils.simpleUI.SimpleButton;
 import utils.SoundPlayer;
-import utils.constants.Sounds;
 import utils.simpleUI.SimpleLabel;
 
 import javax.swing.*;
@@ -58,7 +57,6 @@ public class IntroducingPanel extends JPanel {
         initTitleLabel();
 
         startAnimation();
-        SoundPlayer.play(Sounds.MAIN_MENU, true);
     }
 
     private void initButtons() {
@@ -66,7 +64,7 @@ public class IntroducingPanel extends JPanel {
 
         buttons.add(createButton("Start", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
             Game.play();
-            SoundPlayer.pause(Sounds.MAIN_MENU);
+            SoundPlayer.pause(settingsPanel.getSelectedMusic().getPath());
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
             frame.dispose();
         }));
