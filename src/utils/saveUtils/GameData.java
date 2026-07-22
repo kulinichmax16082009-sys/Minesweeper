@@ -1,15 +1,23 @@
-package utils;
+package utils.saveUtils;
 
 import gameObjects.Player;
-import windows.BasicWindow;
+import utils.Board;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class GameData implements Serializable {
-    private static final String LOAD_SAVE_PATH = "resources/saves.dat";
+public class GameData extends Data implements Serializable {
+    @Override
+    protected String getFilePath() {
+        return "resources/saves.dat";
+    }
+
+    @Override
+    protected Data createEmpty() {
+        return new GameData();
+    }
 
     private ArrayList<String> titles;
     private ArrayList<Integer> flagsLeft;
@@ -25,37 +33,6 @@ public class GameData implements Serializable {
         dates = new ArrayList<>();
         times = new ArrayList<>();
         boards = new ArrayList<>();
-    }
-
-    public void saveData() {
-        try {
-            FileOutputStream fos = new FileOutputStream(LOAD_SAVE_PATH);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-            oos.writeObject(this);
-
-            oos.close();
-
-            fos.close();
-        } catch (Exception e) {
-            BasicWindow.showErrorMessage("Error while saving game");
-        }
-    }
-
-    public static GameData loadData() {
-        try {
-            FileInputStream fis = new FileInputStream(LOAD_SAVE_PATH);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
-            GameData gameData = (GameData) ois.readObject();
-
-            ois.close();
-            fis.close();
-
-            return gameData;
-        } catch (Exception e) {
-            return new GameData();
-        }
     }
 
     public void addAll(Player currentPlayer, String title, Board board) {
@@ -110,6 +87,7 @@ public class GameData implements Serializable {
                 ", playerTimes=" + playerTimes +
                 ", dates=" + dates +
                 ", times=" + times +
+                ", boards=" + boards +
                 '}';
     }
 }

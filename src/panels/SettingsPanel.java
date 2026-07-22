@@ -1,6 +1,7 @@
 package panels;
 
 import enums.MainMenuMusic;
+import utils.saveUtils.SettingsData;
 import utils.simpleUI.SimpleButton;
 import utils.simpleUI.SimpleLabel;
 import utils.SoundPlayer;
@@ -33,10 +34,12 @@ public class SettingsPanel extends JPanel {
     private JSlider volume;
     private JSlider animationSpeed;
     private JComboBox<MainMenuMusic> musicChooser;
-    private static MainMenuMusic selectedMusic = MainMenuMusic.CLASSIC_RETRO;
+    private MainMenuMusic selectedMusic;
 
     public SettingsPanel(IntroducingPanel introducingPanel) {
         this.introducingPanel = introducingPanel;
+
+        SettingsData settingsData = (SettingsData) new SettingsData().loadData();
 
         setBounds((IntroducingPanel.WIDTH - WIDTH) / 2, (IntroducingPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         setLayout(null);
@@ -45,22 +48,24 @@ public class SettingsPanel extends JPanel {
 
         initBackButton();
 
-        initAnimationSpeedSlider();
-        initVolumeSlider();
+        initAnimationSpeedSlider(settingsData);
+        initVolumeSlider(settingsData);
 
         initTitleLabel();
 
-        initMusicChooser();
+        initMusicChooser(settingsData);
         setBackground(new Color(191, 191, 191));
         SoundPlayer.play(selectedMusic.getPath(), true);
     }
 
-    private void initMusicChooser() {
+    private void initMusicChooser(SettingsData settingsData) {
         SimpleLabel musicLabel = SimpleLabel.createTitleLabel(20, volume.getY() + SLIDER_GAP, 100, SLIDER_HEIGHT,
                 new Color(0,0,0), new Color(154, 154, 154), "Music", new Font("Arial", Font.BOLD, 18)
         );
 
         add(musicLabel);
+
+        selectedMusic = settingsData.getSelectedMusic();
 
         musicChooser = new JComboBox<>(MainMenuMusic.values());
         musicChooser.setSelectedItem(selectedMusic);
@@ -68,6 +73,8 @@ public class SettingsPanel extends JPanel {
         musicChooser.addActionListener(e -> {
             selectedMusic = (MainMenuMusic) musicChooser.getSelectedItem();
             SoundPlayer.play(selectedMusic.getPath(), true);
+            settingsData.setSelectedMusic(selectedMusic);
+            settingsData.saveData();
         });
 
         musicChooser.setLocation(WIDTH / 2 - CHOOSER_WIDTH / 2,volume.getY() + SLIDER_GAP);
@@ -76,20 +83,24 @@ public class SettingsPanel extends JPanel {
         add(musicChooser);
     }
 
-    private void initAnimationSpeedSlider() {
+    private void initAnimationSpeedSlider(SettingsData settingsData) {
         SimpleLabel speedLabel = SimpleLabel.createTitleLabel(20, TITLE_HEIGHT * 2, 100, SLIDER_HEIGHT,
                 new Color(0,0,0), new Color(154, 154, 154), "Speed", new Font("Arial", Font.BOLD, 18)
         );
 
         add(speedLabel);
 
-        animationSpeed = new JSlider(0, 1000, 1000 - IntroducingPanel.getAnimationSpeed());
+        animationSpeed = new JSlider(0, 1000, 1000 - settingsData.getAnimationSpeed());
+        IntroducingPanel.setAnimationSpeed((animationSpeed.getMaximum() - animationSpeed.getValue()));
         animationSpeed.setMajorTickSpacing(100);
         animationSpeed.setSize(SLIDER_WIDTH, SLIDER_HEIGHT);
         animationSpeed.setLocation(WIDTH / 2 - SLIDER_WIDTH / 2, TITLE_HEIGHT * 2);
         animationSpeed.addChangeListener(e -> {
             introducingPanel.stopAnimation();
-            IntroducingPanel.setAnimationSpeed((animationSpeed.getMaximum() - animationSpeed.getValue()));
+            int result = animationSpeed.getMaximum() - animationSpeed.getValue();
+            IntroducingPanel.setAnimationSpeed(result);
+            settingsData.setAnimationSpeed(result);
+            settingsData.saveData();
             introducingPanel.startAnimation();
             if (animationSpeed.getValue() == 0) introducingPanel.stopAnimation();
         });
@@ -97,19 +108,23 @@ public class SettingsPanel extends JPanel {
         add(animationSpeed);
     }
 
-    private void initVolumeSlider() {
+    private void initVolumeSlider(SettingsData settingsData) {
         SimpleLabel volumeLabel = SimpleLabel.createTitleLabel(20, animationSpeed.getY() + SLIDER_GAP, 100, SLIDER_HEIGHT,
                 new Color(0,0,0), new Color(154, 154, 154), "Volume", new Font("Arial", Font.BOLD, 18)
         );
 
         add(volumeLabel);
 
-        volume = new JSlider(0, 60, (int) (60 - -1 * SoundPlayer.getVolumeDb()));
+        volume = new JSlider(0, 60,  60 - -1 * settingsData.getVolume());
+        SoundPlayer.setVolumeDb(-1 * (volume.getMaximum() - volume.getValue()));
         volume.setMajorTickSpacing(1);
         volume.setSize(SLIDER_WIDTH, SLIDER_HEIGHT);
         volume.setLocation(WIDTH / 2 - SLIDER_WIDTH / 2, animationSpeed.getY() + SLIDER_GAP);
         volume.addChangeListener(e -> {
-            SoundPlayer.setVolumeDb(-1 * (volume.getMaximum() - volume.getValue()));
+            int result = -1 * (volume.getMaximum() - volume.getValue());
+            SoundPlayer.setVolumeDb(result);
+            settingsData.setVolume(result);
+            settingsData.saveData();
             SoundPlayer.unpause(selectedMusic.getPath(), true);
         });
         volume.setBackground(new Color(154, 154, 154));

@@ -4,7 +4,7 @@ import enums.Difficulty;
 import gameObjects.Cell;
 import gameObjects.Player;
 import utils.Game;
-import utils.GameData;
+import utils.saveUtils.GameData;
 import utils.simpleUI.SimpleButton;
 import utils.simpleUI.SimpleLabel;
 
@@ -82,7 +82,7 @@ public class EndPanel extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER && !textField.getText().isEmpty()) {
-                    GameData gameData = GameData.loadData();
+                    GameData gameData = (GameData) new GameData().loadData();
                     gameData.addAll(player, textField.getText(), boardPanel.getBoard());
                     gameData.saveData();
                     textField.setText("");
@@ -98,7 +98,7 @@ public class EndPanel extends JPanel {
     private void initSubmitButton(Player player) {
         submit = SimpleButton.createButton("Submit", 60, 20, e -> {
             if (textField.getText().isEmpty()) return;
-            GameData gameData = GameData.loadData();
+            GameData gameData = (GameData) new GameData().loadData();
             gameData.addAll(player, textField.getText(), boardPanel.getBoard());
             gameData.saveData();
             textField.setText("");

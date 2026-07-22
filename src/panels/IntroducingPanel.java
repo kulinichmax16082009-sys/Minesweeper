@@ -30,7 +30,7 @@ public class IntroducingPanel extends JPanel {
     private final int TITLE_HEIGHT = 50;
     private final int TITLE_FONT_SIZE = 30;
 
-    private static int animationSpeed = 500;
+    private static int animationSpeed;
 
     private final RandomGen rnd;
     private ArrayList<SimpleButton> buttons;
@@ -137,9 +137,6 @@ public class IntroducingPanel extends JPanel {
             timer.stop();
             timer = null;
         }
-    }
-    public static int getAnimationSpeed() {
-        return animationSpeed;
     }
 
     public static void setAnimationSpeed(int animationSpeed) {

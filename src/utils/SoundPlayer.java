@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class SoundPlayer {
 
     private final static HashMap<String, Clip> sounds = new HashMap<>();
-    private static float volumeDb = -30f;
+    private static float volumeDb;
 
     public static void load(String path) {
         try {

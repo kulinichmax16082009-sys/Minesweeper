@@ -1,7 +1,7 @@
 package panels;
 
 import enums.Difficulty;
-import utils.GameData;
+import utils.saveUtils.GameData;
 import utils.simpleUI.SimpleButton;
 import windows.BoardWindow;
 
@@ -60,7 +60,7 @@ public class StatsPanel extends JPanel {
         pane.setEnabled(false);
         add(pane);
 
-        GameData gameData = GameData.loadData();
+        GameData gameData = (GameData) new GameData().loadData();
         addRows(gameData);
 
         table.addMouseListener(new MouseAdapter() {

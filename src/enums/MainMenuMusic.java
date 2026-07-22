@@ -8,7 +8,6 @@ public enum MainMenuMusic {
     BYTE_BLAST(Sounds.BYTE_BLAST),
     LET_IT_HAPPEN(Sounds.LET_IT_HAPPEN);
 
-
     private final String path;
 
     MainMenuMusic(String path) {
