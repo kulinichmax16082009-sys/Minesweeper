@@ -46,6 +46,8 @@ public class SoundPlayer {
     }
 
     public static void unpause(String path, boolean loop) {
+        if (sounds.get(path) == null) return;
+
         FloatControl control = (FloatControl) sounds.get(path).getControl(FloatControl.Type.MASTER_GAIN);
         control.setValue(volumeDb);
 
@@ -63,9 +65,5 @@ public class SoundPlayer {
 
     public static void setVolumeDb(float volumeDb) {
         SoundPlayer.volumeDb = volumeDb;
-    }
-
-    public static float getVolumeDb() {
-        return volumeDb;
     }
 }
