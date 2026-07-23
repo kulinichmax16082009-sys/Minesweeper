@@ -7,12 +7,6 @@ public class MyColor implements Serializable {
     private int g;
     private int b;
 
-    public MyColor(int r, int g, int b) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-    }
-
     public MyColor() {
         this.r = 0;
         this.g = 0;

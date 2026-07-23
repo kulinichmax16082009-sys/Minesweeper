@@ -22,9 +22,7 @@ public class Board implements Serializable {
     private final int[][] DIRECTIONS = { {-1, 0}, {0, -1}, {0, 1}, {1, 0}, {1, 1}, {-1, -1}, {-1, 1}, {1, -1}};
 
     public Board(Difficulty difficulty) {
-        //Handle
         this.rnd = new RandomGen();
-        //
         this.cells = new Cell[1][1];
         this.numberOfMines = 10;
         this.width = 10;
@@ -147,28 +145,28 @@ public class Board implements Serializable {
     }
 
     public void revealAllMines() {
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                if (cells[i][j].getValue().getNumber() == -1) {
-                    cells[i][j].setType(CellTypes.MINE);
-                    cells[i][j].reveal();
+        for (Cell[] cell : cells) {
+            for (Cell value : cell) {
+                if (value.getValue().getNumber() == -1) {
+                    value.setType(CellTypes.MINE);
+                    value.reveal();
                 }
             }
         }
     }
 
     public void revealAll() {
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                cells[i][j].reveal();
+        for (Cell[] cell : cells) {
+            for (Cell value : cell) {
+                value.reveal();
             }
         }
     }
 
     public boolean isDead() {
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                if (cells[i][j].isRevealed() && cells[i][j].getType() == CellTypes.MINE) {
+        for (Cell[] cell : cells) {
+            for (Cell value : cell) {
+                if (value.isRevealed() && value.getType() == CellTypes.MINE) {
                     return true;
                 }
             }
@@ -178,12 +176,11 @@ public class Board implements Serializable {
     }
 
     public boolean isWin() {
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                if (!cells[i][j].isRevealed() || isDead()) return false;
+        for (Cell[] cell : cells) {
+            for (Cell value : cell) {
+                if (!value.isRevealed() || isDead()) return false;
             }
         }
-
         return true;
     }
 

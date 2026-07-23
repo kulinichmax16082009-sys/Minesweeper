@@ -72,7 +72,7 @@ public class SettingsPanel extends JPanel {
 
         musicChooser.addActionListener(e -> {
             selectedMusic = (MainMenuMusic) musicChooser.getSelectedItem();
-            SoundPlayer.play(selectedMusic.getPath(), true);
+            SoundPlayer.play(selectedMusic != null ? selectedMusic.getPath() : null, true);
             settingsData.setSelectedMusic(selectedMusic);
             settingsData.saveData();
         });

@@ -70,7 +70,7 @@ public class Cell implements Serializable {
     private void paintText(Graphics2D g2d, int x, int y) {
         if (type.equals(CellTypes.NUMBER) && isRevealed && value.getNumber() != 0) {
             g2d.setColor(value.getColor());
-            g2d.setFont(new Font("Arial", Font.BOLD, 30));
+            g2d.setFont(new Font("Arial", Font.BOLD, CELL_SIZE - 2));
 
             String s = String.valueOf(value.getNumber());
             FontMetrics fm = g2d.getFontMetrics();
@@ -122,9 +122,6 @@ public class Cell implements Serializable {
 
     @Override
     public String toString() {
-        return "Cell{" +
-                "value=" + value +
-                ", type=" + type +
-                '}';
+        return "Value: " + value + ", Type: " + type;
     }
 }

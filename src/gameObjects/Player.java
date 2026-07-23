@@ -39,10 +39,6 @@ public class Player {
         return icon;
     }
 
-    public void setIcon(Image icon) {
-        this.icon = icon;
-    }
-
     public int getFlagsLeft() {
         return flagsLeft;
     }

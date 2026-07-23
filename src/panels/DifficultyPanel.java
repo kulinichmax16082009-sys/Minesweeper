@@ -104,10 +104,6 @@ public class DifficultyPanel extends JPanel {
         return selectedDifficulty;
     }
 
-    public void setSelectedDifficulty(Difficulty selectedDifficulty) {
-        this.selectedDifficulty = selectedDifficulty;
-    }
-
     public void setIntroducingPanel(IntroducingPanel introducingPanel) {
         this.introducingPanel = introducingPanel;
     }
