@@ -29,9 +29,9 @@ public class Board implements Serializable {
     public Board(Difficulty difficulty) {
         this.rnd = new RandomGen();
         this.cells = new Cell[1][1];
-        this.numberOfMines = 10;
-        this.width = 10;
-        this.height = 8;
+        this.numberOfMines = 40;
+        this.width = 18;
+        this.height = 14;
 
         this.difficulty = difficulty;
 
