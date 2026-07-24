@@ -2,6 +2,11 @@ package utils;
 
 import java.io.Serializable;
 
+/**
+ * This class represents color in game for .json files to be converted into Color objects.
+ *
+ * @author Maksym Kulynych
+ */
 public class MyColor implements Serializable {
     private int r;
     private int g;
@@ -13,6 +18,9 @@ public class MyColor implements Serializable {
         this.b = 0;
     }
 
+    /**
+     * This method filters the color values to make them in range of 0-255.
+     */
     public void colorFilter() {
         if (r < 0) r = 0;
         if (r > 255) r = 255;

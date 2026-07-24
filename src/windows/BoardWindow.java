@@ -6,6 +6,11 @@ import utils.Board;
 import javax.swing.*;
 import java.awt.event.MouseListener;
 
+/**
+ * BoardWindow class is used for showing user a board in stats.
+ *
+ * @author Maksym Kulynych
+ */
 public class BoardWindow extends BasicWindow {
 
     public BoardWindow(Board board) {

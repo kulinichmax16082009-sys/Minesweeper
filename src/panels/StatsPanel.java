@@ -13,6 +13,11 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * StatsPanel represents panel where all stats of the game is shown.
+ *
+ * @author Maksym Kulynych
+ */
 public class StatsPanel extends JPanel {
     public final static float SIZE_FACTOR = 1.5f;
     public final static int HEIGHT = (int) (IntroducingPanel.HEIGHT / SIZE_FACTOR);
@@ -22,12 +27,16 @@ public class StatsPanel extends JPanel {
     private final int BUTTON_HEIGHT = (int) (IntroducingPanel.BUTTON_HEIGHT / SIZE_FACTOR);
     public static final int BUTTON_FONT_SIZE = (int) (IntroducingPanel.BUTTON_FONT_SIZE / SIZE_FACTOR);
 
-    private final String[] columns = {"Title", "Win/Loose" , "Difficulty" ," Playtime", "Flags", "Date","Time"};
+    private final String[] columns = {"Title", "Win/Loose" , "Difficulty" ," Playtime", "Flags", "Date", "Time"};
 
     private IntroducingPanel introducingPanel;
     private DefaultTableModel model;
     private JTable table;
 
+    /**
+     * Constructor sets basic panel values and initializes table and back button.
+     * @param introducingPanel is needed to unpause it by back button
+     */
     public StatsPanel(IntroducingPanel introducingPanel) {
         this.introducingPanel = introducingPanel;
 
@@ -39,9 +48,13 @@ public class StatsPanel extends JPanel {
         setBounds((IntroducingPanel.WIDTH - WIDTH) / 2, (IntroducingPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setVisible(false);
+
         setBackground(new Color(191, 191, 191));
     }
 
+    /**
+     * This method simply initializes back button that unpauses introducing panel.
+     */
     private void initBackButton() {
         SimpleButton back = SimpleButton.createButton("Back", BUTTON_WIDTH, BUTTON_HEIGHT, e -> introducingPanel.setPaused(this, false));
         back.setDesign(new Color(200, 0, 0), new Color(0, 0, 0), BUTTON_FONT_SIZE, "Arial");
@@ -50,6 +63,9 @@ public class StatsPanel extends JPanel {
         add(back);
     }
 
+    /**
+     * This method simply initializes table where stats is shown and also adds mouse listener.
+     */
     private void initTable() {
         model = new DefaultTableModel(columns, 0);
         table = new JTable(model);
@@ -82,6 +98,10 @@ public class StatsPanel extends JPanel {
         });
     }
 
+    /**
+     * This method loads game data and adds new row of information into the table.
+     * @param gameData data that must be added into the table
+     */
     private void addRows(GameData gameData) {
         for (int i = 0; i < (gameData != null ? gameData.getTitles().size() : 0); i++) {
             String title = gameData.getTitles().get(i);

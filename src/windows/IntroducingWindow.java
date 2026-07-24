@@ -8,6 +8,11 @@ import panels.StatsPanel;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * IntroducingWindow class represents main menu window with all panels provided.
+ *
+ * @author Maksym Kulynych
+ */
 public class IntroducingWindow extends BasicWindow {
     private DifficultyPanel difficultyPanel;
 
@@ -25,6 +30,9 @@ public class IntroducingWindow extends BasicWindow {
         return "resources/cellTypesIcons/flag.png";
     }
 
+    /**
+     * This method initializes all panels used in introducing window by adding them to each other and setting order.
+     */
     private void initPanels() {
         StatsPanel statsPanel = new StatsPanel(null);
         SettingsPanel settingsPanel = new SettingsPanel(null);

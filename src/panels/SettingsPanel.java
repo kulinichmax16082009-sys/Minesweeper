@@ -9,6 +9,11 @@ import utils.SoundPlayer;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * SettingsPanel class represents panel where player can set values of the game for better experience.
+ *
+ * @author Maksym Kulynych
+ */
 public class SettingsPanel extends JPanel {
     public final static float SIZE_FACTOR = 1.5f;
     public final static int HEIGHT = (int) (IntroducingPanel.HEIGHT / SIZE_FACTOR);
@@ -36,6 +41,10 @@ public class SettingsPanel extends JPanel {
     private JComboBox<MainMenuMusic> musicChooser;
     private MainMenuMusic selectedMusic;
 
+    /**
+     * Constructor sets all basic values and also back button, sliders, title label and chooser.
+     * @param introducingPanel is needed to unpause it by back button
+     */
     public SettingsPanel(IntroducingPanel introducingPanel) {
         this.introducingPanel = introducingPanel;
 
@@ -54,10 +63,15 @@ public class SettingsPanel extends JPanel {
         initTitleLabel();
 
         initMusicChooser(settingsData);
+
         setBackground(new Color(191, 191, 191));
-        SoundPlayer.play(selectedMusic.getPath(), true);
+        SoundPlayer.play(selectedMusic.getMusicPath(), true);
     }
 
+    /**
+     * This method simply initializes music chooser by adding label to it and also action listener that changes music.
+     * @param settingsData is used to load previous selected music from .dat file
+     */
     private void initMusicChooser(SettingsData settingsData) {
         SimpleLabel musicLabel = SimpleLabel.createTitleLabel(20, volume.getY() + SLIDER_GAP, 100, SLIDER_HEIGHT,
                 new Color(0,0,0), new Color(154, 154, 154), "Music", new Font("Arial", Font.BOLD, 18)
@@ -72,7 +86,7 @@ public class SettingsPanel extends JPanel {
 
         musicChooser.addActionListener(e -> {
             selectedMusic = (MainMenuMusic) musicChooser.getSelectedItem();
-            SoundPlayer.play(selectedMusic != null ? selectedMusic.getPath() : null, true);
+            SoundPlayer.play(selectedMusic != null ? selectedMusic.getMusicPath() : null, true);
             settingsData.setSelectedMusic(selectedMusic);
             settingsData.saveData();
         });
@@ -83,6 +97,10 @@ public class SettingsPanel extends JPanel {
         add(musicChooser);
     }
 
+    /**
+     * This method simply initializes animation speed slider by adding label to it and also change listener that changes speed.
+     * @param settingsData is used to load previous animation speed from .dat file
+     */
     private void initAnimationSpeedSlider(SettingsData settingsData) {
         SimpleLabel speedLabel = SimpleLabel.createTitleLabel(20, TITLE_HEIGHT * 2, 100, SLIDER_HEIGHT,
                 new Color(0,0,0), new Color(154, 154, 154), "Speed", new Font("Arial", Font.BOLD, 18)
@@ -108,6 +126,10 @@ public class SettingsPanel extends JPanel {
         add(animationSpeed);
     }
 
+    /**
+     * This method simply initializes volume slider by adding label to it and also change listener that changes volume.
+     * @param settingsData is used to load previous volume from .dat file
+     */
     private void initVolumeSlider(SettingsData settingsData) {
         SimpleLabel volumeLabel = SimpleLabel.createTitleLabel(20, animationSpeed.getY() + SLIDER_GAP, 100, SLIDER_HEIGHT,
                 new Color(0,0,0), new Color(154, 154, 154), "Volume", new Font("Arial", Font.BOLD, 18)
@@ -125,12 +147,15 @@ public class SettingsPanel extends JPanel {
             SoundPlayer.setVolumeDb(result);
             settingsData.setVolume(result);
             settingsData.saveData();
-            SoundPlayer.unpause(selectedMusic.getPath(), true);
+            SoundPlayer.unpause(selectedMusic.getMusicPath(), true);
         });
         volume.setBackground(new Color(154, 154, 154));
         add(volume);
     }
 
+    /**
+     * This method initializes title label by setting its design and adding to panel.
+     */
     private void initTitleLabel() {
         SimpleLabel titleLabel = SimpleLabel.createTitleLabel(WIDTH / 2 - TITLE_WIDTH / 2, TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT,
                 new Color(0, 0, 0), new Color(0, 0, 240), "Settings", new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
@@ -138,6 +163,9 @@ public class SettingsPanel extends JPanel {
         add(titleLabel);
     }
 
+    /**
+     * This method simply initializes back button that unpauses introducing panel.
+     */
     private void initBackButton() {
         SimpleButton back = SimpleButton.createButton("Back", BUTTON_WIDTH, BUTTON_HEIGHT, e -> introducingPanel.setPaused(this, false));
         back.setDesign(new Color(0, 0, 240), new Color(0, 0, 0), BUTTON_FONT_SIZE, "Arial");

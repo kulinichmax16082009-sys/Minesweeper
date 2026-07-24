@@ -8,17 +8,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+/**
+ * GameData class represents all data that was used in a game.
+ *
+ * @author Maksym Kulynych
+ */
 public class GameData extends Data implements Serializable {
-    @Override
-    protected String getFilePath() {
-        return "resources/saves.dat";
-    }
-
-    @Override
-    protected Data createEmpty() {
-        return new GameData();
-    }
-
     private ArrayList<String> titles;
     private ArrayList<Integer> flagsLeft;
     private ArrayList<Long> playerTimes;
@@ -26,6 +21,9 @@ public class GameData extends Data implements Serializable {
     private ArrayList<LocalTime> times;
     private ArrayList<Board> boards;
 
+    /**
+     * Empty constructor that creates new ArrayLists by default.
+     */
     public GameData() {
         flagsLeft = new ArrayList<>();
         playerTimes = new ArrayList<>();
@@ -35,6 +33,12 @@ public class GameData extends Data implements Serializable {
         boards = new ArrayList<>();
     }
 
+    /**
+     * This method adds all data to all ArrayLists in a class.
+     * @param currentPlayer player that was playing a game
+     * @param title text title that player named this save
+     * @param board board that was in a game
+     */
     public void addAll(Player currentPlayer, String title, Board board) {
         flagsLeft.add(currentPlayer.getFlagsLeft());
         playerTimes.add(currentPlayer.getTime());
@@ -44,6 +48,10 @@ public class GameData extends Data implements Serializable {
         boards.add(board);
     }
 
+    /**
+     * This method simply deletes all data in ArrayLists by index.
+     * @param index index in all ArrayLists
+     */
     public void removeAllAtIndex(int index) {
         if (index < 0 || index >= times.size()) return;
 
@@ -77,6 +85,16 @@ public class GameData extends Data implements Serializable {
 
     public ArrayList<Board> getBoards() {
         return boards;
+    }
+
+    @Override
+    protected String getFilePath() {
+        return "resources/saves.dat";
+    }
+
+    @Override
+    protected Data createEmpty() {
+        return new GameData();
     }
 
     @Override

@@ -5,6 +5,11 @@ import utils.constants.Images;
 import java.awt.*;
 import java.io.Serializable;
 
+/**
+ * Cell class represents cell in board with its type, icon, sound, etc.
+ *
+ * @author Maksym Kulynych
+ */
 public class Cell implements Serializable {
     private Value value;
     private boolean isRevealed;
@@ -25,11 +30,20 @@ public class Cell implements Serializable {
         else setCellByType();
     }
 
+    /**
+     * This method simply sets icon and sound value based on cell type.
+     */
     private void setCellByType() {
         icon = type.getIcon();
         sound = type.getSoundPath();
     }
 
+    /**
+     * This method is used for painting 1 cell in panel.
+     * @param g paint instrument
+     * @param x X-axis of position where cell must be painted
+     * @param y Y-axis of position where cell must be painted
+     */
     public void paint(Graphics g, int x, int y) {
         Graphics2D g2d = (Graphics2D) g;
 
@@ -41,6 +55,12 @@ public class Cell implements Serializable {
         paintText(g2d, x, y);
     }
 
+    /**
+     * This method is used for painting 1 cell in panel in case there is troubles with icon paths.
+     * @param g2d paint instrument
+     * @param x X-axis of position where cell must be painted
+     * @param y Y-axis of position where cell must be painted
+     */
     private void paintDefaultTexture(Graphics2D g2d, int x, int y) {
         if (!isRevealed) {
             g2d.setColor(new Color(130, 130, 130));
@@ -67,6 +87,12 @@ public class Cell implements Serializable {
         }
     }
 
+    /**
+     * This method simply paints value of cell with its number and color.
+     * @param g2d paint instrument
+     * @param x X-axis of position where cell must be painted
+     * @param y Y-axis of position where cell must be painted
+     */
     private void paintText(Graphics2D g2d, int x, int y) {
         if (type.equals(CellTypes.NUMBER) && isRevealed && value.getNumber() != 0) {
             g2d.setColor(value.getColor());
@@ -80,16 +106,26 @@ public class Cell implements Serializable {
         }
     }
 
+    /**
+     * This method antialiases text (makes it more vector-graphics looking)
+     * @param g2d paint instrument
+     */
     private void antialias(Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 
+    /**
+     * This method reveals cell.
+     */
     public void reveal() {
         setCellByType();
         isRevealed = true;
     }
 
+    /**
+     * This method hides cell.
+     */
     public void hide() {
         icon = Images.HIDDEN;
         isRevealed = false;
@@ -107,6 +143,10 @@ public class Cell implements Serializable {
         return type;
     }
 
+    /**
+     * This method sets type and also changes icon and sound.
+     * @param type type that must be changed
+     */
     public void setType(CellTypes type) {
         this.type = type;
         setCellByType();

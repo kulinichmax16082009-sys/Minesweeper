@@ -13,6 +13,11 @@ import java.util.ArrayList;
 
 import static utils.simpleUI.SimpleButton.createButton;
 
+/**
+ * IntroducingPanel class represents main menu panel that user first see when opens app.
+ *
+ * @author Maksym Kulynych
+ */
 public class IntroducingPanel extends JPanel {
     private static final int CELL_AMOUNT_HEIGHT = 13;
     private static final int CELL_AMOUNT_WIDTH = 22;
@@ -41,6 +46,12 @@ public class IntroducingPanel extends JPanel {
     private Timer timer;
     private boolean isPaused;
 
+    /**
+     * Constructor sets basic panel values and also initializes buttons and starts animation.
+     * @param difficultyPanel is used for pausing
+     * @param settingsPanel is used for pausing
+     * @param statsPanel is used for pausing
+     */
     public IntroducingPanel(DifficultyPanel difficultyPanel, SettingsPanel settingsPanel, StatsPanel statsPanel) {
         this.rnd = new RandomGen();
         this.difficultyPanel = difficultyPanel;
@@ -59,12 +70,15 @@ public class IntroducingPanel extends JPanel {
         startAnimation();
     }
 
+    /**
+     * This method simply initializes buttons and their action listeners.
+     */
     private void initButtons() {
         buttons = new ArrayList<>();
 
         buttons.add(createButton("Start", BUTTON_WIDTH, BUTTON_HEIGHT, e -> {
             Game.play();
-            SoundPlayer.pause(settingsPanel.getSelectedMusic().getPath());
+            SoundPlayer.pause(settingsPanel.getSelectedMusic().getMusicPath());
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
             frame.dispose();
         }));
@@ -74,6 +88,36 @@ public class IntroducingPanel extends JPanel {
         buttons.add(createButton("Quit",BUTTON_WIDTH, BUTTON_HEIGHT ,e -> System.exit(0)));
     }
 
+    /**
+     * This method simply sets buttons design.
+     */
+    private void setButtonsDesign() {
+        for (SimpleButton button : buttons) {
+            button.setDesign(new Color(173, 24, 24), new Color(0, 0, 0), BUTTON_FONT_SIZE, "Arial");
+        }
+    }
+
+    /**
+     * This method simply sets buttons location by calculation.
+     */
+    private void setButtonsLocation() {
+        for (int i = 0; i < buttons.size(); i++) {
+            buttons.get(i).setLocation(40, (int) (TITLE_HEIGHT * 0.75 + i * BUTTON_GAP));
+        }
+    }
+
+    /**
+     * This method simply add buttons to panel.
+     */
+    private void addButtonsToPanel() {
+        for (SimpleButton button : buttons) add(button);
+    }
+
+    /**
+     * This method simply pauses/unpauses panel to show/hide another panel.
+     * @param newPanel panel that must be shown
+     * @param isPaused boolean that decides whether panel must be paused/unpaused
+     */
     public void setPaused(JPanel newPanel, boolean isPaused) {
         this.isPaused = isPaused;
 
@@ -85,6 +129,9 @@ public class IntroducingPanel extends JPanel {
         repaint();
     }
 
+    /**
+     * This method initializes title label by setting its design and adding to panel.
+     */
     private void initTitleLabel() {
         titleLabel = SimpleLabel.createTitleLabel(WIDTH - TITLE_WIDTH - 10, HEIGHT / 2 - TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT,
                 new Color(0, 0, 0), new Color(173, 24, 24), "Minesweeper", new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
@@ -92,26 +139,13 @@ public class IntroducingPanel extends JPanel {
         add(titleLabel);
     }
 
-    private void setButtonsDesign() {
-        for (SimpleButton button : buttons) {
-            button.setDesign(new Color(173, 24, 24), new Color(0, 0, 0), BUTTON_FONT_SIZE, "Arial");
-        }
-    }
-
-    private void setButtonsLocation() {
-        for (int i = 0; i < buttons.size(); i++) {
-            buttons.get(i).setLocation(40, (int) (TITLE_HEIGHT * 0.75 + i * BUTTON_GAP));
-        }
-    }
-
-    private void addButtonsToPanel() {
-        for (SimpleButton button : buttons) add(button);
-    }
-
+    /**
+     * This method paints all random cells in the panel and also black rectangle if panel is paused.
+     * @param g the <code>Graphics</code> object to protect
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         for (int i = 0; i < HEIGHT; i += Cell.CELL_SIZE) {
             for (int j = 0; j < WIDTH; j += Cell.CELL_SIZE) {
                 Cell cell = rnd.randomCell();
@@ -125,6 +159,9 @@ public class IntroducingPanel extends JPanel {
         }
     }
 
+    /**
+     * This method starts animation by updating the timer and repaint panel each tick.
+     */
     public void startAnimation() {
         if (timer == null && animationSpeed != 1000) {
             timer = new Timer(animationSpeed, e -> repaint());
@@ -132,6 +169,9 @@ public class IntroducingPanel extends JPanel {
         }
     }
 
+    /**
+     * This method stops animation by stoping the timer.
+     */
     public void stopAnimation() {
         if (timer != null) {
             timer.stop();

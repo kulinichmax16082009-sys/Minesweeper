@@ -8,6 +8,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * DifficultyPanel class represents panel where user can choose difficulty of the board.
+ *
+ * @author Maksym Kulynych
+ */
 public class DifficultyPanel extends JPanel {
     public final static float SIZE_FACTOR = 1.5f;
     public final static int HEIGHT = (int) (IntroducingPanel.HEIGHT / SIZE_FACTOR);
@@ -27,6 +32,10 @@ public class DifficultyPanel extends JPanel {
     private IntroducingPanel introducingPanel;
     private Difficulty selectedDifficulty;
 
+    /**
+     * Constructor initializes basic values of panel, buttons and title label.
+     * @param introducingPanel is needed for unpausing by buttons
+     */
     public DifficultyPanel(IntroducingPanel introducingPanel) {
         this.introducingPanel = introducingPanel;
         this.selectedDifficulty = Difficulty.MEDIUM;
@@ -42,8 +51,13 @@ public class DifficultyPanel extends JPanel {
         addButtonsToPanel();
 
         initTitleLabel();
+
+        setBackground(new Color(130,130,130));
     }
 
+    /**
+     * This method simply initializes all buttons in the panel by using enum.
+     */
     private void initButtons() {
         buttons = new ArrayList<>();
 
@@ -61,43 +75,55 @@ public class DifficultyPanel extends JPanel {
         }
     }
 
+    /**
+     * This method simply sets buttons design.
+     */
     private void setButtonsDesign() {
         for (SimpleButton button : buttons) {
             button.setDesign(new Color(0, 100, 0), new Color(0,0,0), BUTTON_FONT_SIZE, "Arial");
         }
     }
 
-    private void initTitleLabel() {
-        SimpleLabel titleLabel = SimpleLabel.createTitleLabel(WIDTH / 2 - TITLE_WIDTH / 2, TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT,
-                new Color(0, 0, 0), new Color(0, 100, 0), "Difficulty", new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
-        add(titleLabel);
-    }
-
+    /**
+     * This method simply sets buttons location by calculation.
+     */
     private void setButtonsLocation() {
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).setLocation(WIDTH / 2 - BUTTON_WIDTH / 2,  2 * TITLE_HEIGHT + i * BUTTON_GAP);
         }
     }
 
+    /**
+     * This method simply add buttons to panel.
+     */
     private void addButtonsToPanel() {
         for (SimpleButton button : buttons) add(button);
     }
 
+    /**
+     * This method initializes title label by setting its design and adding to panel.
+     */
+    private void initTitleLabel() {
+        SimpleLabel titleLabel = SimpleLabel.createTitleLabel(WIDTH / 2 - TITLE_WIDTH / 2, TITLE_HEIGHT / 2, TITLE_WIDTH, TITLE_HEIGHT,
+                new Color(0, 0, 0), new Color(0, 100, 0), "Difficulty", new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
+        add(titleLabel);
+    }
+
+    /**
+     * This method simply paints panel border.
+     * @param g the <code>Graphics</code> object to protect
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setColor(new Color(130,130,130));
-        g2d.fillRect(0,0,WIDTH, HEIGHT);
-
         g2d.setColor(new Color(130,0,0));
         g2d.setStroke(new BasicStroke(15));
         g2d.drawRect(0,0,WIDTH - 1, HEIGHT - 1);
 
         g2d.setStroke(new BasicStroke(1));
-        g2d.setColor(new Color(0,0,0));
     }
 
     public Difficulty getSelectedDifficulty() {

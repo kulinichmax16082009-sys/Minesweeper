@@ -3,25 +3,23 @@ import enums.MainMenuMusic;
 
 import java.io.*;
 
+/**
+ * SettingsData class represents all data of settings in introducing window.
+ *
+ * @author Maskym Kulynych
+ */
 public class SettingsData extends Data implements Serializable {
     private int volume;
     private int animationSpeed;
     private MainMenuMusic selectedMusic;
 
+    /**
+     * Empty constructor that sets data by default.
+     */
     public SettingsData() {
         this.volume = -30;
         this.animationSpeed = 500;
         this.selectedMusic = MainMenuMusic.CLASSIC_RETRO;
-    }
-
-    @Override
-    protected String getFilePath() {
-        return "resources/settings.dat";
-    }
-
-    @Override
-    protected Data createEmpty() {
-        return new SettingsData();
     }
 
     public int getVolume() {
@@ -46,6 +44,16 @@ public class SettingsData extends Data implements Serializable {
 
     public void setSelectedMusic(MainMenuMusic selectedMusic) {
         this.selectedMusic = selectedMusic;
+    }
+
+    @Override
+    protected String getFilePath() {
+        return "resources/settings.dat";
+    }
+
+    @Override
+    protected Data createEmpty() {
+        return new SettingsData();
     }
 
     @Override

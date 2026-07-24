@@ -6,6 +6,11 @@ import utils.simpleUI.SimpleLabel;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * GamePanel class is used for showing side things such as flags left and time.
+ *
+ * @author Maksym Kulynych
+ */
 public class GamePanel extends JPanel {
     public static final int TITLE_CELLS_AMOUNT_HEIGHT = 4;
     public static final int TITLE_CELLS_AMOUNT_WIDTH = 2;
@@ -19,6 +24,11 @@ public class GamePanel extends JPanel {
     private SimpleLabel flagsLabel;
     private final BoardPanel boardPanel;
 
+    /**
+     * Constructor initializes basic panel values and also time label and flags left label.
+     * @param boardPanel panel that must be set
+     * @param player player values that are shown in labels
+     */
     public GamePanel(BoardPanel boardPanel, Player player) {
         this.player = player;
         this.boardPanel = boardPanel;
@@ -35,9 +45,13 @@ public class GamePanel extends JPanel {
 
         setLayout(null);
         setPreferredSize(new Dimension(width(), height()));
+
         setBackground(new Color(191, 191, 191));
     }
 
+    /**
+     * This method simply initializes time label by setting its design and adding it to panel.
+     */
     private void initTimeLabel() {
         timeLabel = SimpleLabel.createTitleLabel(Cell.CELL_SIZE, Cell.CELL_SIZE + Cell.CELL_SIZE / 2,
                 LABEL_WIDTH, LABEL_HEIGHT,
@@ -49,6 +63,9 @@ public class GamePanel extends JPanel {
         add(timeLabel);
     }
 
+    /**
+     * This method simply initializes flags left label by setting its design and adding it to panel.
+     */
     private void initFlagsLabel() {
         flagsLabel = SimpleLabel.createTitleLabel(Cell.CELL_SIZE, Cell.CELL_SIZE - Cell.CELL_SIZE / 2,
                 LABEL_WIDTH, LABEL_HEIGHT,
@@ -60,6 +77,9 @@ public class GamePanel extends JPanel {
         add(flagsLabel);
     }
 
+    /**
+     * This method updates time in label and transforms it into simple format.
+     */
     public void updateTimeLabel() {
         if (player.getTime() >= 60) {
             long minutes = 0;
@@ -76,18 +96,33 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void updateFlagsLabel() {
+    /**
+     * This method simply updates flags left amount in label.
+     */
+    private void updateFlagsLabel() {
         flagsLabel.setText("Flags left: " + player.getFlagsLeft());
     }
 
-    public int width() {
+    /**
+     * This method represents width of the panel.
+     * @return width of the panel
+     */
+    private int width() {
         return boardPanel.getBoard().getWidth() * Cell.CELL_SIZE + TITLE_CELLS_AMOUNT_WIDTH * Cell.CELL_SIZE;
     }
 
-    public int height() {
+    /**
+     * This method represents height of the panel.
+     * @return height of the panel
+     */
+    private int height() {
         return boardPanel.getBoard().getHeight() * Cell.CELL_SIZE + TITLE_CELLS_AMOUNT_HEIGHT * Cell.CELL_SIZE;
     }
 
+    /**
+     * This method paint current player icon and also border between board panel and game panel.
+     * @param g the <code>Graphics</code> object to protect
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

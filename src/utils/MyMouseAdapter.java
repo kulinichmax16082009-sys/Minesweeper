@@ -9,6 +9,11 @@ import utils.constants.Sounds;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * MyMouseAdapter class controls user mouse action in game.
+ *
+ * @author Maksym Kulynych
+ */
 public class MyMouseAdapter extends MouseAdapter {
     private final Board board;
     private final BoardPanel boardPanel;
@@ -22,6 +27,10 @@ public class MyMouseAdapter extends MouseAdapter {
         this.player = player;
     }
 
+    /**
+     * This method controls all mouse released processes.
+     * @param e the event to be processed
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
@@ -37,6 +46,12 @@ public class MyMouseAdapter extends MouseAdapter {
         boardPanel.repaint();
     }
 
+    /**
+     * This method controls cell reveal action in game.
+     * @param e the event to be processed
+     * @param x X-axis positon of mouse left click
+     * @param y Y-axis positon of mouse left click
+     */
     private void revealAction(MouseEvent e, int x, int y) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (firstReveal) {
@@ -52,6 +67,12 @@ public class MyMouseAdapter extends MouseAdapter {
         }
     }
 
+    /**
+     * This method controls all flag actions in game (Ex. place/remove the flag)
+     * @param e the event to be processed
+     * @param x X-axis positon of mouse right click
+     * @param y Y-axis positon of mouse right click
+     */
     private void flagAction(MouseEvent e, int x, int y) {
         if (e.getButton() == MouseEvent.BUTTON3) {
             if (!board.getCells()[y][x].isRevealed() && player.getFlagsLeft() > 0) {

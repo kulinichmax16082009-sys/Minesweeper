@@ -3,6 +3,11 @@ package windows;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * BasicWindow abstract class is used as parent of all windows in projects. Provides starting window settings.
+ *
+ * @author Maksym Kulynych
+ */
 public abstract class BasicWindow {
     protected JFrame frame;
 
@@ -17,9 +22,17 @@ public abstract class BasicWindow {
         frame.setIconImage(new ImageIcon(getImagePath()).getImage());
     }
 
+    /**
+     * This method is used for showing error message to user if system has troubles
+     * @param message text that will be shown if error
+     */
     public static void showErrorMessage(String message) {
         JOptionPane.showMessageDialog(null, message, "Minesweeper - Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * This method is used for getting an image path for icon of the window
+     * @return path to an image icon
+     */
     public abstract String getImagePath();
 }

@@ -6,6 +6,11 @@ import panels.EndPanel;
 import panels.GamePanel;
 import utils.Board;
 
+/**
+ * GameWindow class represents the whole game and also all panels used in it.
+ *
+ * @author Maksym Kulynych
+ */
 public class GameWindow extends BasicWindow {
     private GamePanel gamePanel;
     private BoardPanel boardPanel;
@@ -20,6 +25,11 @@ public class GameWindow extends BasicWindow {
         frame.setLocationRelativeTo(null);
     }
 
+    /**
+     * This method initializes all panels used in game window by adding them to each other and setting order.
+     * @param board used in boardPanel to show board
+     * @param player used in all panels to set players parameters
+     */
     private void initPanels(Board board, Player player) {
         boardPanel = new BoardPanel(board, player);
         gamePanel = new GamePanel(boardPanel, player);

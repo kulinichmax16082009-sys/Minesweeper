@@ -3,12 +3,16 @@ package utils;
 import enums.Difficulty;
 import enums.MainMenuMusic;
 import gameObjects.Player;
-import panels.*;
 import utils.constants.*;
 import windows.*;
 
 import javax.swing.*;
 
+/**
+ * Game class represents the whole game mechanism.
+ *
+ * @author Maksym Kulynych
+ */
 public class Game {
     private static IntroducingWindow introducingWindow;
     private static Timer timer;
@@ -16,9 +20,12 @@ public class Game {
     private static Board board;
     private static GameWindow gameWindow;
 
+    /**
+     * This method initializes starting position of a game and loading sounds.
+     */
     public static void start() {
         for (MainMenuMusic music : MainMenuMusic.values()) {
-            SoundPlayer.load(music.getPath());
+            SoundPlayer.load(music.getMusicPath());
         }
         SoundPlayer.load(Sounds.NUMBER);
         SoundPlayer.load(Sounds.MINE);
@@ -28,6 +35,9 @@ public class Game {
         introducingWindow = new IntroducingWindow();
     }
 
+    /**
+     * This method starts the game by initializing board and showing game window
+     */
     public static void play() {
         Difficulty difficulty = introducingWindow.getDifficultyPanel().getSelectedDifficulty();
 
@@ -39,6 +49,9 @@ public class Game {
         gameWindow = new GameWindow(player, board);
     }
 
+    /**
+     * This method represents update timer that updates time and checks if game is over.
+     */
     public static void startTimer() {
         timer = new Timer(1000, e -> {
             player.tickTime();
@@ -49,10 +62,16 @@ public class Game {
         timer.start();
     }
 
+    /**
+     * This method simply stops the timer.
+     */
     private static void stopTimer() {
         if (timer != null) timer.stop();
     }
 
+    /**
+     * This method checks game over conditions to initialize end panel based on result.
+     */
     private static void gameOver() {
         if (board.isDead() || board.isWin()) {
             if (board.isDead()) {

@@ -10,13 +10,22 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Value class represents value of cell with it number and color.
+ *
+ * @author Maksym Kulynych
+ */
 public class Value implements Serializable {
     private int number;
     private Color color;
     private ArrayList<MyColor> possibleColors;
 
-    private final String JSON_FILE_PATH = "resources/colors.json";
+    private final String JSON_FILE_PATH = "resources/json/colors.json";
 
+    /**
+     * Constructor that sets number and attaches color to them (-1 is reserved for mines)
+     * @param number number that must be set
+     */
     public Value(int number) {
         if (number < -1 || number > 8) number = 0;
 
@@ -25,6 +34,9 @@ public class Value implements Serializable {
         attachColorToValue();
     }
 
+    /**
+     * This method simply initializes all possible colors ArrayList from .json file.
+     */
     private void initPossibleColors() {
         ObjectMapper mapper = new ObjectMapper();
 
@@ -41,6 +53,9 @@ public class Value implements Serializable {
         }
     }
 
+    /**
+     * This method creates new instance of Color class for graphics based on number of the value.
+     */
     private void attachColorToValue() {
         for (int i = 0; i < possibleColors.size(); i++) {
             if (number == i + 1) {

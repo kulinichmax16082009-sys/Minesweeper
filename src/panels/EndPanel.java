@@ -16,6 +16,11 @@ import java.util.ArrayList;
 
 import static utils.simpleUI.SimpleButton.createButton;
 
+/**
+ * EndPanel class is used to show player if he loosed or won.
+ *
+ * @author Maksym Kulynych
+ */
 public class EndPanel extends JPanel {
     public final static float SIZE_FACTOR = 1.5f;
     private final int TITLE_WIDTH = 150;
@@ -37,6 +42,11 @@ public class EndPanel extends JPanel {
     private final BoardPanel boardPanel;
     private boolean isGoodEnd;
 
+    /**
+     * Constructor sets basic panel values and also initializes buttons, text field and submit button.
+     * @param boardPanel is needed to paused
+     * @param player is needed for saving his data
+     */
     public EndPanel(BoardPanel boardPanel, Player player) {
         this.boardPanel = boardPanel;
         this.isGoodEnd = true;
@@ -53,9 +63,13 @@ public class EndPanel extends JPanel {
         setLayout(null);
         setPreferredSize(new Dimension(width(), height()));
         setVisible(false);
+
         setBackground(new Color(191, 191, 191));
     }
 
+    /**
+     * This method initializes title label by setting its design that depends on if the end is good or not and adding to panel.
+     */
     private void initTitleLabel() {
         SimpleLabel titleLabel;
 
@@ -69,6 +83,10 @@ public class EndPanel extends JPanel {
         add(titleLabel);
     }
 
+    /**
+     * This method simply initializes text field and also adds key listener that saves data.
+     * @param player is needed to save data
+     */
     private void initTextField(Player player) {
         textField = new JTextField("Enter the title");
         textField.setLocation(0,0);
@@ -95,6 +113,10 @@ public class EndPanel extends JPanel {
         add(textField);
     }
 
+    /**
+     * This method simply initializes submit button that saves data.
+     * @param player is needed to save data
+     */
     private void initSubmitButton(Player player) {
         submit = SimpleButton.createButton("Submit", 60, 20, e -> {
             if (textField.getText().isEmpty()) return;
@@ -115,6 +137,9 @@ public class EndPanel extends JPanel {
         add(submit);
     }
 
+    /**
+     * This method simply initializes buttons and their action listeners.
+     */
     private void initButtons() {
         buttons = new ArrayList<>();
 
@@ -136,6 +161,9 @@ public class EndPanel extends JPanel {
         }));
     }
 
+    /**
+     * This method simply sets buttons location by calculation.
+     */
     private void setButtonsLocation() {
         if (boardPanel.getBoard().getDifficulty() == Difficulty.EASY) {
             for (int i = 0; i < buttons.size(); i++) {
@@ -152,26 +180,44 @@ public class EndPanel extends JPanel {
         }
     }
 
+    /**
+     * This method simply sets buttons design.
+     */
     private void setButtonsDesign() {
         for (SimpleButton button : buttons) {
             button.setDesign(new Color(191, 191, 191), new Color(0, 0, 0), BUTTON_FONT_SIZE, "Arial");
         }
     }
 
+    /**
+     * This method simply add buttons to panel.
+     */
     private void addButtonsToPanel() {
         for (SimpleButton button : buttons) add(button);
     }
 
+    /**
+     * This method represents width of the panel.
+     * @return width of the panel
+     */
     public int width() {
         if (boardPanel.getBoard().getDifficulty() == Difficulty.EASY) return boardPanel.width();
         return (int) (boardPanel.width() / SIZE_FACTOR);
     }
 
+    /**
+     * This method represents height of the panel.
+     * @return height of the panel
+     */
     public int height() {
         if (boardPanel.getBoard().getDifficulty() == Difficulty.EASY) return boardPanel.height();
         return (int) (boardPanel.height() / (SIZE_FACTOR * SIZE_FACTOR));
     }
 
+    /**
+     * This method simply adds border to a panel.
+     * @param g the <code>Graphics</code> object to protect
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -184,6 +230,10 @@ public class EndPanel extends JPanel {
         g2d.setStroke(new BasicStroke(3));
     }
 
+    /**
+     * This method simply initializes title label by good end.
+     * @param goodEnd true - the end is good, false - otherwise
+     */
     public void setGoodEnd(boolean goodEnd) {
         isGoodEnd = goodEnd;
         initTitleLabel();
