@@ -133,7 +133,7 @@ public class GamePanel extends JPanel {
 
         Image playerIcon = player.getIcon();
 
-        g2d.drawImage(playerIcon, getWidth() - playerIcon.getWidth(null) - Cell.CELL_SIZE, 10, null);
+        if (playerIcon != null) g2d.drawImage(playerIcon, getWidth() - playerIcon.getWidth(null) - Cell.CELL_SIZE, 10, null);
 
         g2d.setStroke(new BasicStroke(20));
         g2d.setColor(new Color(154, 154, 154));

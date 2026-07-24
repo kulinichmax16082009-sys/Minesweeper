@@ -19,6 +19,7 @@ public class Value implements Serializable {
     private int number;
     private Color color;
     private ArrayList<MyColor> possibleColors;
+    private static boolean errorShown = false;
 
     private final String JSON_FILE_PATH = "resources/json/colors.json";
 
@@ -45,7 +46,10 @@ public class Value implements Serializable {
         try (InputStream input = new FileInputStream(JSON_FILE_PATH)) {
             mapper.readerForUpdating(this).readValue(input);
         } catch (Exception e) {
-            BasicWindow.showErrorMessage("Error while reading colors.json file");
+            if (!errorShown) {
+                errorShown = true;
+                BasicWindow.showErrorMessage("Error while reading " + JSON_FILE_PATH);
+            }
         }
 
         for (MyColor possibleColor : possibleColors) {

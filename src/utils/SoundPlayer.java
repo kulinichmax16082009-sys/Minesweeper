@@ -29,7 +29,7 @@ public class SoundPlayer {
             sounds.put(path, clip);
 
         } catch (Exception e) {
-            BasicWindow.showErrorMessage("Error while loading sounds!");
+            BasicWindow.showErrorMessage("Error while loading " + path + " sound!");
         }
     }
 
