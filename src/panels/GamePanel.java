@@ -141,5 +141,6 @@ public class GamePanel extends JPanel {
         g2d.drawRect(Cell.CELL_SIZE * (TITLE_CELLS_AMOUNT_WIDTH - 1),
                 Cell.CELL_SIZE * (TITLE_CELLS_AMOUNT_HEIGHT - 1),
                 width() - Cell.CELL_SIZE * TITLE_CELLS_AMOUNT_WIDTH, height() - Cell.CELL_SIZE * TITLE_CELLS_AMOUNT_HEIGHT);
+        g2d.setStroke(new BasicStroke(1));
     }
 }

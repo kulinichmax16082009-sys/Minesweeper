@@ -95,7 +95,8 @@ public class Cell implements Serializable {
      */
     private void paintText(Graphics2D g2d, int x, int y) {
         if (type.equals(CellTypes.NUMBER) && isRevealed && value.getNumber() != 0) {
-            g2d.setColor(value.getColor());
+            if (value.getColor() != null) g2d.setColor(value.getColor());
+            else g2d.setColor(new Color(0,0,0));
             g2d.setFont(new Font("Arial", Font.BOLD, CELL_SIZE - 2));
 
             String s = String.valueOf(value.getNumber());

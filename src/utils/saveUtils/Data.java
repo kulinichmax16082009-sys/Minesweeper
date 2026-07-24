@@ -37,7 +37,7 @@ public abstract class Data implements Serializable {
 
             fos.close();
         } catch (Exception e) {
-            BasicWindow.showErrorMessage("Error while saving data");
+            BasicWindow.showErrorMessage("Error while saving " + getFilePath());
         }
     }
 
