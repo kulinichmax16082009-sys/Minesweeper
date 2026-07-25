@@ -2,8 +2,10 @@ package windows;
 
 import panels.BoardPanel;
 import utils.Board;
+import utils.constants.Images;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseListener;
 
 /**
@@ -32,7 +34,7 @@ public class BoardWindow extends BasicWindow {
     }
 
     @Override
-    public String getImagePath() {
-        return "resources/cellTypesIcons/hidden.png";
+    public Image getImageIcon() {
+        return Images.HIDDEN;
     }
 }

@@ -4,6 +4,7 @@ import panels.DifficultyPanel;
 import panels.IntroducingPanel;
 import panels.SettingsPanel;
 import panels.StatsPanel;
+import utils.constants.Images;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,11 +24,6 @@ public class IntroducingWindow extends BasicWindow {
 
         frame.pack();
         frame.setLocationRelativeTo(null);
-    }
-
-    @Override
-    public String getImagePath() {
-        return "resources/cellTypesIcons/flag.png";
     }
 
     /**
@@ -56,5 +52,10 @@ public class IntroducingWindow extends BasicWindow {
 
     public DifficultyPanel getDifficultyPanel() {
         return difficultyPanel;
+    }
+
+    @Override
+    public Image getImageIcon() {
+        return Images.FLAG;
     }
 }

@@ -19,7 +19,7 @@ public abstract class BasicWindow {
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setFocusable(true);
-        frame.setIconImage(new ImageIcon(getImagePath()).getImage());
+        frame.setIconImage(getImageIcon());
     }
 
     /**
@@ -31,8 +31,8 @@ public abstract class BasicWindow {
     }
 
     /**
-     * This method is used for getting an image path for icon of the window
-     * @return path to an image icon
+     * This method is used for getting an image for icon of the window
+     * @return an image icon
      */
-    public abstract String getImagePath();
+    public abstract Image getImageIcon();
 }

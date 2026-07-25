@@ -5,6 +5,9 @@ import panels.BoardPanel;
 import panels.EndPanel;
 import panels.GamePanel;
 import utils.Board;
+import utils.constants.Images;
+
+import java.awt.*;
 
 /**
  * GameWindow class represents the whole game and also all panels used in it.
@@ -44,8 +47,8 @@ public class GameWindow extends BasicWindow {
     }
 
     @Override
-    public String getImagePath() {
-        return "resources/cellTypesIcons/mine.png";
+    public Image getImageIcon() {
+        return Images.MINE;
     }
 
     public GamePanel getGamePanel() {
