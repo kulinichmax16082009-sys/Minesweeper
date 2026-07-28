@@ -89,7 +89,9 @@ public class GameData extends Data implements Serializable {
 
     @Override
     protected String getFilePath() {
-        return "resources/saves.dat";
+        File folder = new File(System.getenv("APPDATA") + "/.minesweeper");
+        if (!folder.exists()) folder.mkdirs();
+        return folder.getPath() + "/saves.dat";
     }
 
     @Override

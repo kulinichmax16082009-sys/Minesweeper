@@ -48,7 +48,9 @@ public class SettingsData extends Data implements Serializable {
 
     @Override
     protected String getFilePath() {
-        return "resources/settings.dat";
+        File folder = new File(System.getenv("APPDATA") + "/.minesweeper");
+        if (!folder.exists()) folder.mkdirs();
+        return folder.getPath() + "/settings.dat";
     }
 
     @Override

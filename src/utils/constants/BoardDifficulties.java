@@ -6,7 +6,7 @@ package utils.constants;
  * @author Maksym Kulynych
  */
 public class BoardDifficulties {
-    public final static String EASY = "resources/json/boardDifficulties/easy.json";
-    public final static String MEDIUM = "resources/json/boardDifficulties/medium.json";
-    public final static String HARD = "resources/json/boardDifficulties/hard.json";
+    public final static String EASY = "/json/boardDifficulties/easy.json";
+    public final static String MEDIUM = "/json/boardDifficulties/medium.json";
+    public final static String HARD = "/json/boardDifficulties/hard.json";
 }

@@ -5,7 +5,6 @@ import utils.MyColor;
 import windows.BasicWindow;
 
 import java.awt.*;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class Value implements Serializable {
     private ArrayList<MyColor> possibleColors;
     private static boolean errorShown = false;
 
-    private final String JSON_FILE_PATH = "resources/json/colors.json";
+    private final String JSON_FILE_PATH = "/json/colors.json";
 
     /**
      * Constructor that sets number and attaches color to them (-1 is reserved for mines)
@@ -43,7 +42,7 @@ public class Value implements Serializable {
 
         possibleColors = new ArrayList<>();
 
-        try (InputStream input = new FileInputStream(JSON_FILE_PATH)) {
+        try (InputStream input = getClass().getResourceAsStream(JSON_FILE_PATH)) {
             mapper.readerForUpdating(this).readValue(input);
         } catch (Exception e) {
             if (!errorShown) {

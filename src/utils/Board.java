@@ -7,7 +7,6 @@ import gameObjects.Cell;
 import gameObjects.Value;
 import windows.BasicWindow;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 
@@ -65,7 +64,7 @@ public class Board implements Serializable {
     private void initBoard(String jsonFilePath) {
         ObjectMapper mapper = new ObjectMapper();
 
-        try (InputStream input = new FileInputStream(jsonFilePath)) {
+        try (InputStream input = getClass().getResourceAsStream(jsonFilePath)) {
             mapper.readerForUpdating(this).readValue(input);
         } catch (Exception e) {
             BasicWindow.showErrorMessage("Error while loading board from .json file");

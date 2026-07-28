@@ -2,7 +2,7 @@ package utils.constants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
+import java.net.URL;
 
 /**
  * Images class represents all constant images loaded from paths.
@@ -10,14 +10,15 @@ import java.io.File;
  * @author Maksym Kulynych
  */
 public class Images {
-    public static final Image MINE = load("resources/images/cellTypesIcons/mine.png");
-    public static final Image HIDDEN = load("resources/images/cellTypesIcons/hidden.png");
-    public static final Image FLAG = load("resources/images/cellTypesIcons/flag.png");
-    public static final Image NUMBER = load("resources/images/cellTypesIcons/number.png");
+    public static final Image MINE = load("/images/cellTypesIcons/mine.png");
+    public static final Image HIDDEN = load("/images/cellTypesIcons/hidden.png");
+    public static final Image FLAG = load("/images/cellTypesIcons/flag.png");
+    public static final Image NUMBER = load("/images/cellTypesIcons/number.png");
 
-    public static final Image PLAYER_ALIVE = load("resources/images/playerIcons/alive.png");
-    public static final Image PLAYER_DEAD = load("resources/images/playerIcons/dead.png");
-    public static final Image PLAYER_WON = load("resources/images/playerIcons/won.png");
+    public static final Image PLAYER_ALIVE = load("/images/playerIcons/alive.png");
+    public static final Image PLAYER_DEAD = load("/images/playerIcons/dead.png");
+    public static final Image PLAYER_WON = load("/images/playerIcons/won.png");
+
 
     /**
      * This method creates an instance of image by loading it from path.
@@ -25,8 +26,8 @@ public class Images {
      * @return new image instance
      */
     private static Image load(String path) {
-        File file = new File(path);
-        if (!file.exists()) return null;
-        return new ImageIcon(path).getImage();
+        URL url = Images.class.getResource(path);
+        if (url == null) return null;
+        return new ImageIcon(url).getImage();
     }
 }

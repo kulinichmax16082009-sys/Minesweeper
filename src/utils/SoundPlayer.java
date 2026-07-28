@@ -3,7 +3,6 @@ package utils;
 import windows.BasicWindow;
 
 import javax.sound.sampled.*;
-import java.io.File;
 import java.util.HashMap;
 
 /**
@@ -21,7 +20,7 @@ public class SoundPlayer {
      */
     public static void load(String path) {
         try {
-            AudioInputStream audio = AudioSystem.getAudioInputStream(new File(path));
+            AudioInputStream audio = AudioSystem.getAudioInputStream(SoundPlayer.class.getResource(path));
 
             Clip clip = AudioSystem.getClip();
             clip.open(audio);
@@ -39,9 +38,7 @@ public class SoundPlayer {
      * @param loop boolean that loops the sound if needed
      */
     public static void play(String path, boolean loop) {
-        for (Clip clip : sounds.values()) {
-            clip.stop();
-        }
+        for (Clip clip : sounds.values()) clip.stop();
 
         Clip clip = sounds.get(path);
 
